@@ -76,9 +76,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SerialPort.cpp" />
     <ClCompile Include="SyncSerialComm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SerialPort.h" />
     <ClInclude Include="SyncSerialComm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

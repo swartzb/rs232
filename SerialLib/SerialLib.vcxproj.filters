@@ -18,9 +18,15 @@
     <ClCompile Include="SyncSerialComm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SerialPort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SyncSerialComm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SerialPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
