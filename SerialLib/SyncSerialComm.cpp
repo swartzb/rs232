@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include <assert.h>
+#include <tchar.h>
 
 #include <sstream>
 
@@ -13,13 +14,14 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CSyncSerialComm::CSyncSerialComm(const char *pszPortName)
+CSyncSerialComm::CSyncSerialComm(const TCHAR *pszPortName)
 	: m_hSerialComm(INVALID_HANDLE_VALUE)
 {
 	assert(pszPortName);
 
-	m_pszPortName = new char[strlen(pszPortName)];
-	strcpy(m_pszPortName, pszPortName);
+	size_t len = _tcslen(pszPortName);
+	m_pszPortName = new TCHAR[len];
+	_tcsncpy(m_pszPortName, pszPortName, len);
 }
 
 CSyncSerialComm::~CSyncSerialComm()
@@ -205,7 +207,7 @@ HRESULT CSyncSerialComm::Read(char **ppszBuf, DWORD &dwSize)
 // in the buffer is sent out
 //////////////////////////////////////////////////////////////////////
 
-HRESULT CSyncSerialComm::Write(const char *pszBuf, DWORD dwSize)
+HRESULT CSyncSerialComm::Write(const TCHAR *pszBuf, DWORD dwSize)
 {
 	HRESULT hResult = S_OK;
 

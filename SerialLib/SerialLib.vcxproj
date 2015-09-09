@@ -20,7 +20,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -77,10 +77,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SerialPort.cpp" />
+    <ClCompile Include="SerialPortAPI.cpp" />
     <ClCompile Include="SyncSerialComm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SerialPort.h" />
+    <ClInclude Include="SerialPortAPI.h" />
     <ClInclude Include="SyncSerialComm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
