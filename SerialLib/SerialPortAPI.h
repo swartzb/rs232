@@ -3,8 +3,8 @@
 #include "SerialPort.h"
 #include <tchar.h>
 
-__declspec(dllexport)
-SerialPort *SerialPortInit(const TCHAR *portName);
+extern "C" __declspec(dllexport)
+SerialPort * __stdcall SerialPortInit(const TCHAR *portName);
 
-__declspec(dllexport)
-void SerialPortDestroy(SerialPort *sp);
+extern "C" __declspec(dllexport)
+void __stdcall SerialPortDestroy(SerialPort *sp);

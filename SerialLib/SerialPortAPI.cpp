@@ -1,12 +1,12 @@
 #include "SerialPortAPI.h"
 
-SerialPort *SerialPortInit(const TCHAR *portName)
+SerialPort * __stdcall SerialPortInit(const TCHAR *portName)
 {
 	SerialPort *sp = new SerialPort(portName);
 	return sp;
 }
 
-void SerialPortDestroy(SerialPort *sp)
+void __stdcall SerialPortDestroy(SerialPort *sp)
 {
 	delete sp;
 }
