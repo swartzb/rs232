@@ -7,6 +7,8 @@ class SerialPort
 public:
 	SerialPort(const WCHAR *portName);
 	~SerialPort();
+	HRESULT Open();
+	HRESULT Close();
 
 private:
 	WCHAR *m_PortName;

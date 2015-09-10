@@ -1,9 +1,15 @@
 #pragma once
 
-#include "SerialPort.h"
+#include "SyncSerialComm.h"
 
 extern "C" __declspec(dllexport)
-SerialPort * __stdcall SerialPortInit(const WCHAR *portName);
+CSyncSerialComm * __stdcall SerialPortInit(const WCHAR *portName);
 
 extern "C" __declspec(dllexport)
-void __stdcall SerialPortDestroy(SerialPort *sp);
+void __stdcall SerialPortDestroy(CSyncSerialComm *sp);
+
+extern "C" __declspec(dllexport)
+HRESULT __stdcall SerialPortOpen(CSyncSerialComm *sp);
+
+extern "C" __declspec(dllexport)
+HRESULT __stdcall SerialPortClose(CSyncSerialComm *sp);

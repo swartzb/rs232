@@ -14,5 +14,13 @@ namespace csClient
 
         [DllImport("SerialLib.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern void SerialPortDestroy(IntPtr sp);
+
+        [DllImport("SerialLib.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern Int32 SerialPortOpen(IntPtr sp);
+
+        [DllImport("SerialLib.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern Int32 SerialPortClose(IntPtr sp);
     }
 }
