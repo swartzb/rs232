@@ -43,6 +43,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);C:\Program Files (x86)\Windows Kits\8.0\Lib\Win8\um\x86;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -58,6 +59,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies />
     </Link>
+    <PreBuildEvent>
+      <Command>echo $(VC_LibraryPath_x86);
+echo $(WindowsSDK_LibraryPath_x86);</Command>
+      <Message>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -79,6 +85,7 @@
     <ClInclude Include="CppLib.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="SyncSerialComm.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -87,6 +94,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SyncSerialComm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
