@@ -6,7 +6,6 @@
 
 #include <string.h>
 #include <assert.h>
-#include <tchar.h>
 
 #include <sstream>
 
@@ -14,14 +13,14 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CSyncSerialComm::CSyncSerialComm(const TCHAR *pszPortName)
+CSyncSerialComm::CSyncSerialComm(const WCHAR *pszPortName)
 	: m_hSerialComm(INVALID_HANDLE_VALUE)
 {
 	assert(pszPortName);
 
-	size_t len = _tcslen(pszPortName);
-	m_pszPortName = new TCHAR[len];
-	_tcsncpy(m_pszPortName, pszPortName, len);
+	size_t len = wcslen(pszPortName);
+	m_pszPortName = new WCHAR[len + 1];
+	wcsncpy_s(m_pszPortName, len + 1, pszPortName, len);
 }
 
 CSyncSerialComm::~CSyncSerialComm()
@@ -187,7 +186,8 @@ HRESULT CSyncSerialComm::Read(char **ppszBuf, DWORD &dwSize)
 		} while(dwIncommingReadSize > 0);
 
 		*ppszBuf = new char[dwSize];
-		strcpy(*ppszBuf, (sb.str()).c_str());
+		const char *c_str = (sb.str()).c_str();
+		strcpy_s(*ppszBuf, dwSize, c_str);
 	
 		return hResult;
 	}
@@ -207,7 +207,7 @@ HRESULT CSyncSerialComm::Read(char **ppszBuf, DWORD &dwSize)
 // in the buffer is sent out
 //////////////////////////////////////////////////////////////////////
 
-HRESULT CSyncSerialComm::Write(const TCHAR *pszBuf, DWORD dwSize)
+HRESULT CSyncSerialComm::Write(const WCHAR *pszBuf, DWORD dwSize)
 {
 	HRESULT hResult = S_OK;
 

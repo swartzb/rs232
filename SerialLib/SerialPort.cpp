@@ -1,15 +1,14 @@
 #include "SerialPort.h"
 #include <assert.h>
-#include <tchar.h>
 
-SerialPort::SerialPort(const TCHAR *portName)
+SerialPort::SerialPort(const WCHAR *portName)
 	: m_handle(INVALID_HANDLE_VALUE)
 {
 	assert(portName);
 
-	size_t len = _tcslen(portName);
-	m_PortName = new TCHAR[len + 1];
-	_tcsncpy(m_PortName, portName, len + 1);
+	size_t len = wcslen(portName);
+	m_PortName = new WCHAR[len + 1];
+	wcsncpy_s(m_PortName, len + 1, portName, len);
 }
 
 

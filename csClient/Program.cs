@@ -10,6 +10,8 @@ namespace csClient
     {
         static void Main(string[] args)
         {
+            CppLib.CSyncSerialComm sp1 = new CppLib.CSyncSerialComm("COM4");
+            
             IntPtr sp = SerialLib.SerialPortInit("COM4");
             SerialLib.SerialPortDestroy(sp);
             return;

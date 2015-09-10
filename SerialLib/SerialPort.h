@@ -5,11 +5,11 @@
 class SerialPort
 {
 public:
-	SerialPort(const TCHAR *portName);
+	SerialPort(const WCHAR *portName);
 	~SerialPort();
 
 private:
-	TCHAR *m_PortName;
+	WCHAR *m_PortName;
 	HANDLE m_handle;
 };
 
