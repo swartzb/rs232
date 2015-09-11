@@ -79,12 +79,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SerialPort.cpp" />
     <ClCompile Include="SerialPortAPI.cpp" />
     <ClCompile Include="SyncSerialComm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SerialPort.h" />
     <ClInclude Include="SerialPortAPI.h" />
     <ClInclude Include="SyncSerialComm.h" />
   </ItemGroup>
