@@ -9,7 +9,16 @@ extern "C" __declspec(dllexport)
 void __stdcall SerialPortDestroy(CSyncSerialComm *sp);
 
 extern "C" __declspec(dllexport)
-HRESULT __stdcall SerialPortOpen(CSyncSerialComm *sp);
+DWORD __stdcall SerialPortOpen(CSyncSerialComm *sp);
 
 extern "C" __declspec(dllexport)
-HRESULT __stdcall SerialPortClose(CSyncSerialComm *sp);
+DWORD __stdcall SerialPortClose(CSyncSerialComm *sp);
+
+extern "C" __declspec(dllexport)
+DWORD __stdcall SerialPortConfig(CSyncSerialComm *sp, DWORD dwBaudRate, DWORD dwTimeOutInSec);
+
+extern "C" __declspec(dllexport)
+DWORD __stdcall SerialPortWrite(CSyncSerialComm *sp, const WCHAR *pszBuf, DWORD dwSize);
+
+extern "C" __declspec(dllexport)
+DWORD __stdcall SerialPortRead(CSyncSerialComm *sp, char * const pszBuf, DWORD *dwSize);

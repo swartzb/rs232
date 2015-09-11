@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace csClient
+namespace csReader
 {
     public class SerialLib
     {

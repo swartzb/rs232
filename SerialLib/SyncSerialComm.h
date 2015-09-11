@@ -23,11 +23,11 @@ class CSyncSerialComm
 {
 public:
 	HRESULT Flush(DWORD dwFlag = PURGE_TXCLEAR | PURGE_RXCLEAR);
-	HRESULT Write(const WCHAR *pszBuf, DWORD dwSize);
-	HRESULT Read(char **ppszBuf, DWORD &dwSize);
-	HRESULT ConfigPort(DWORD dwBaudRate = CBR_19200, DWORD dwTimeOutInSec = 5);
-	HRESULT Close();	
-	HRESULT Open();
+	DWORD Write(const WCHAR *pszBuf, DWORD dwSize);
+	DWORD Read(char * const pszBuf, DWORD *dwSize);
+	DWORD ConfigPort(DWORD dwBaudRate = CBR_19200, DWORD dwTimeOutInSec = 5);
+	DWORD Close();
+	DWORD Open();
 
 	CSyncSerialComm(const WCHAR *pszPortName);
 	virtual ~CSyncSerialComm();

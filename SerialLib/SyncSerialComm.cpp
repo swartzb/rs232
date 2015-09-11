@@ -40,9 +40,9 @@ CSyncSerialComm::~CSyncSerialComm()
 // port.
 //////////////////////////////////////////////////////////////////////
 
-HRESULT CSyncSerialComm::Open()
+DWORD CSyncSerialComm::Open()
 {
-	HRESULT hResult;
+	DWORD error;
 
 	m_hSerialComm = CreateFile(m_pszPortName, /* Port Name */ 
 							   GENERIC_READ | GENERIC_WRITE, /* Desired Access */ 
@@ -52,16 +52,16 @@ HRESULT CSyncSerialComm::Open()
 							   0,
 							   NULL); /* Non Overlapped */
 
-	if(m_hSerialComm == INVALID_HANDLE_VALUE)
+	if (m_hSerialComm == INVALID_HANDLE_VALUE)
 	{
-		unsigned long error = ::GetLastError();
-		hResult = E_FAIL;
+		error = ::GetLastError();
+	}
+	else
+	{
+		error = ERROR_SUCCESS;
 	}
 
-	else
-		hResult = S_OK;
-
-	return hResult;
+	return error;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -72,7 +72,7 @@ HRESULT CSyncSerialComm::Open()
 // Note: This function is called with the destructor
 //////////////////////////////////////////////////////////////////////
 
-HRESULT CSyncSerialComm::Close()
+DWORD CSyncSerialComm::Close()
 {
 	if(m_hSerialComm != INVALID_HANDLE_VALUE)
 	{
@@ -80,7 +80,7 @@ HRESULT CSyncSerialComm::Close()
 		m_hSerialComm = INVALID_HANDLE_VALUE;
 	}
 
-	return S_OK;
+	return ERROR_SUCCESS;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -94,10 +94,12 @@ HRESULT CSyncSerialComm::Close()
 // Comment: This function is used configure the serial port connection.
 //////////////////////////////////////////////////////////////////////
 
-HRESULT CSyncSerialComm::ConfigPort(DWORD dwBaudRate, DWORD dwTimeOutInSec)
+DWORD CSyncSerialComm::ConfigPort(DWORD dwBaudRate, DWORD dwTimeOutInSec)
 {
-	if(!SetupComm(m_hSerialComm, 1024, 1024))
-		return E_FAIL;
+	if (!SetupComm(m_hSerialComm, 1024, 1024))
+	{
+		return ::GetLastError();
+	}
 
 	DCB dcbConfig;
 
@@ -110,12 +112,15 @@ HRESULT CSyncSerialComm::ConfigPort(DWORD dwBaudRate, DWORD dwTimeOutInSec)
 		dcbConfig.fBinary = TRUE;
 		dcbConfig.fParity = TRUE;
 	}
-
 	else
-		return E_FAIL;
+	{
+		return ::GetLastError();
+	}
 
 	if(!SetCommState(m_hSerialComm, &dcbConfig))
-		return E_FAIL;
+	{
+		return ::GetLastError();
+	}
 
 	COMMTIMEOUTS commTimeout;
 				
@@ -127,15 +132,19 @@ HRESULT CSyncSerialComm::ConfigPort(DWORD dwBaudRate, DWORD dwTimeOutInSec)
 		commTimeout.WriteTotalTimeoutConstant = 1000*dwTimeOutInSec;
 		commTimeout.WriteTotalTimeoutMultiplier = 0;
 	}
-
 	else
-		return E_FAIL;
+	{
+		return ::GetLastError();
+	}
 
 	if(SetCommTimeouts(m_hSerialComm, &commTimeout))
-		return S_OK;
-
+	{
+		return ERROR_SUCCESS;
+	}
 	else
-		return E_FAIL;
+	{
+		return ::GetLastError();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -151,14 +160,16 @@ HRESULT CSyncSerialComm::ConfigPort(DWORD dwBaudRate, DWORD dwTimeOutInSec)
 // byte to read from the input stream
 //////////////////////////////////////////////////////////////////////
 
-HRESULT CSyncSerialComm::Read(char **ppszBuf, DWORD &dwSize)
+DWORD CSyncSerialComm::Read(char * const pszBuf, DWORD *dwSize)
 {
-	HRESULT hResult = S_OK;
+	DWORD error = ERROR_SUCCESS;
 	std::stringbuf sb;
 	DWORD dwEventMask;
 
 	if(!SetCommMask(m_hSerialComm, EV_RXCHAR)) /* Setting Event Type */
-		return E_FAIL;
+	{
+		return ::GetLastError();
+	}
 
 	if(WaitCommEvent(m_hSerialComm, &dwEventMask, NULL)) /* Waiting For Event to Occur */
 	{
@@ -171,29 +182,28 @@ HRESULT CSyncSerialComm::Read(char **ppszBuf, DWORD &dwSize)
 			{
 				if(dwIncommingReadSize > 0)
 				{
-					dwSize += dwIncommingReadSize;
+					*dwSize += dwIncommingReadSize;
 					sb.sputn(&szBuf, dwIncommingReadSize);
 				}
 			}
 
 			else
 			{
-				unsigned long error = ::GetLastError();
-				hResult = E_FAIL;
+				error = ::GetLastError();
 				break;
 			}
 
 		} while(dwIncommingReadSize > 0);
 
-		*ppszBuf = new char[dwSize];
 		const char *c_str = (sb.str()).c_str();
-		strcpy_s(*ppszBuf, dwSize, c_str);
+		strcpy_s(pszBuf, *dwSize, c_str);
 	
-		return hResult;
+		return error;
 	}
-
 	else
-		return E_FAIL;
+	{
+		return ::GetLastError();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -207,9 +217,9 @@ HRESULT CSyncSerialComm::Read(char **ppszBuf, DWORD &dwSize)
 // in the buffer is sent out
 //////////////////////////////////////////////////////////////////////
 
-HRESULT CSyncSerialComm::Write(const WCHAR *pszBuf, DWORD dwSize)
+DWORD CSyncSerialComm::Write(const WCHAR *pszBuf, DWORD dwSize)
 {
-	HRESULT hResult = S_OK;
+	DWORD error = ERROR_SUCCESS;
 
 	assert(pszBuf);
 
@@ -221,25 +231,25 @@ HRESULT CSyncSerialComm::Write(const WCHAR *pszBuf, DWORD dwSize)
 
 		if(WriteFile(m_hSerialComm, &pszBuf[dwNumberOfBytesSent], 1, &dwNumberOfBytesWritten, NULL) != 0)
 		{
-			if(dwNumberOfBytesWritten > 0)
+			if (dwNumberOfBytesWritten > 0)
+			{
 				++dwNumberOfBytesSent;
+			}
 			else
 			{
-				unsigned long error = ::GetLastError();
-				hResult = E_FAIL;
+				error = ::GetLastError();
 				break;
 			}
 		}
 
 		else
 		{
-			unsigned long error = ::GetLastError();
-			hResult = E_FAIL;
+			error = ::GetLastError();
 			break;
 		}
 	}
 
-	return hResult;
+	return error;
 }
 
 //////////////////////////////////////////////////////////////////////
