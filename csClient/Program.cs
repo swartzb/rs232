@@ -13,16 +13,38 @@ namespace csClient
             //CppLib.CSyncSerialComm sp1 = new CppLib.CSyncSerialComm("COM4");
 
             IntPtr sp = SerialLib.SerialPortInit("\\\\.\\COM4");
-            UInt32 e1 = SerialLib.SerialPortOpen(sp);
-            UInt32 e3 = SerialLib.SerialPortConfig(sp, 9600, 5);
+            UInt32 e = SerialLib.SerialPortOpen(sp);
+            if (e != 0)
+            {
+                Console.WriteLine("csClient SerialPortOpen: {0}", e);
+                return;
+            }
+
+            e = SerialLib.SerialPortConfig(sp, 9600, 5);
+            if (e != 0)
+            {
+                Console.WriteLine("csClient SerialPortConfig: {0}", e);
+                return;
+            }
 
             Console.WriteLine("csClient: ready to write, press ENTER to continue");
             Console.ReadLine();
             
             string buf = "hello\r";
-            UInt32 e4 = SerialLib.SerialPortWrite(sp, buf, (uint)buf.Length);
+            e = SerialLib.SerialPortWrite(sp, buf, (uint)buf.Length);
+            if (e != 0)
+            {
+                Console.WriteLine("csClient SerialPortWrite: {0}", e);
+                return;
+            }
 
-            UInt32 e2 = SerialLib.SerialPortClose(sp);
+            e = SerialLib.SerialPortClose(sp);
+            if (e != 0)
+            {
+                Console.WriteLine("csClient SerialPortClose: {0}", e);
+                return;
+            }
+
             SerialLib.SerialPortDestroy(sp);
             return;
         }

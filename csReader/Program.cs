@@ -11,17 +11,43 @@ namespace csReader
         static void Main(string[] args)
         {
             IntPtr sp = SerialLib.SerialPortInit("\\\\.\\COM5");
-            UInt32 e1 = SerialLib.SerialPortOpen(sp);
-            UInt32 e3 = SerialLib.SerialPortConfig(sp, 9600, 10);
+            UInt32 e = SerialLib.SerialPortOpen(sp);
+            if (e != 0)
+            {
+                Console.WriteLine("csReader SerialPortOpen: {0}", e);
+                return;
+            }
+
+            e = SerialLib.SerialPortConfig(sp, 9600, 10);
+            if (e != 0)
+            {
+                Console.WriteLine("csReader SerialPortConfig: {0}", e);
+                return;
+            }
 
             Console.WriteLine("csReader: ready to read, press ENTER to continue");
             Console.ReadLine();
 
             StringBuilder sb = new StringBuilder(1024);
             uint sbSize;
-            UInt32 e4 = SerialLib.SerialPortRead(sp, sb, out sbSize);
+            e = SerialLib.SerialPortRead(sp, sb, out sbSize);
+            if (e != 0)
+            {
+                Console.WriteLine("csReader SerialPortRead: {0}", e);
+                return;
+            }
+            else
+            {
+                Console.WriteLine("csReader SerialPortRead success: {0}", sb.ToString());
+            }
 
-            UInt32 e2 = SerialLib.SerialPortClose(sp);
+            e = SerialLib.SerialPortClose(sp);
+            if (e != 0)
+            {
+                Console.WriteLine("csReader SerialPortClose: {0}", e);
+                return;
+            }
+
             SerialLib.SerialPortDestroy(sp);
             return;
         }
