@@ -184,6 +184,10 @@ DWORD CSyncSerialComm::Read(char * const pszBuf, DWORD *dwSize)
 				{
 					*dwSize += dwIncommingReadSize;
 					sb.sputn(&szBuf, dwIncommingReadSize);
+					if (szBuf == '\r')
+					{
+						break;
+					}
 				}
 			}
 
@@ -195,7 +199,8 @@ DWORD CSyncSerialComm::Read(char * const pszBuf, DWORD *dwSize)
 
 		} while(dwIncommingReadSize > 0);
 
-		const char *c_str = (sb.str()).c_str();
+		std::string str = sb.str();
+		const char *c_str = str.c_str();
 		strcpy_s(pszBuf, *dwSize, c_str);
 	
 		return error;
@@ -217,7 +222,7 @@ DWORD CSyncSerialComm::Read(char * const pszBuf, DWORD *dwSize)
 // in the buffer is sent out
 //////////////////////////////////////////////////////////////////////
 
-DWORD CSyncSerialComm::Write(const WCHAR *pszBuf, DWORD dwSize)
+DWORD CSyncSerialComm::Write(const CHAR *pszBuf, DWORD dwSize)
 {
 	DWORD error = ERROR_SUCCESS;
 
@@ -262,10 +267,18 @@ DWORD CSyncSerialComm::Write(const WCHAR *pszBuf, DWORD dwSize)
 // Note: By default, both the input and output buffers are flushed
 //////////////////////////////////////////////////////////////////////
 
-HRESULT CSyncSerialComm::Flush(DWORD dwFlag)
+DWORD CSyncSerialComm::Flush(DWORD dwFlag)
 {
-	if(PurgeComm(m_hSerialComm, dwFlag))
-		return S_OK;
+	DWORD error = ERROR_SUCCESS;
+
+	if (PurgeComm(m_hSerialComm, dwFlag))
+	{
+		error = ERROR_SUCCESS;
+	}
 	else
-		return E_FAIL;
+	{
+		error = ::GetLastError();
+	}
+
+	return error;
 }

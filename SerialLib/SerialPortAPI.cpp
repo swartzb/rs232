@@ -26,7 +26,7 @@ DWORD __stdcall SerialPortConfig(CSyncSerialComm *sp, DWORD dwBaudRate, DWORD dw
 	return sp->ConfigPort(dwBaudRate, dwTimeOutInSec);
 }
 
-DWORD __stdcall SerialPortWrite(CSyncSerialComm *sp, const WCHAR *pszBuf, DWORD dwSize)
+DWORD __stdcall SerialPortWrite(CSyncSerialComm *sp, const CHAR *pszBuf, DWORD dwSize)
 {
 	return sp->Write(pszBuf, dwSize);
 }
@@ -34,4 +34,9 @@ DWORD __stdcall SerialPortWrite(CSyncSerialComm *sp, const WCHAR *pszBuf, DWORD 
 DWORD __stdcall SerialPortRead(CSyncSerialComm *sp, char * const pszBuf, DWORD *dwSize)
 {
 	return sp->Read(pszBuf, dwSize);
+}
+
+DWORD __stdcall SerialPortFlush(CSyncSerialComm *sp)
+{
+	return sp->Flush(PURGE_TXABORT | PURGE_RXABORT | PURGE_TXCLEAR | PURGE_RXCLEAR);
 }

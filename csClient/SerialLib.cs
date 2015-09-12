@@ -29,10 +29,14 @@ namespace csClient
 
         [DllImport("SerialLib.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
-        public static extern UInt32 SerialPortWrite(IntPtr sp, [MarshalAs(UnmanagedType.LPWStr)] string buf, UInt32 bufSize);
+        public static extern UInt32 SerialPortWrite(IntPtr sp, [MarshalAs(UnmanagedType.LPStr)] string buf, UInt32 bufSize);
 
         [DllImport("SerialLib.dll", CharSet = CharSet.Ansi, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
         public static extern UInt32 SerialPortRead(IntPtr sp, StringBuilder buf, out UInt32 bufSize);
+
+        [DllImport("SerialLib.dll", CharSet = CharSet.Ansi, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern UInt32 SerialPortFlush(IntPtr sp);
     }
 }
