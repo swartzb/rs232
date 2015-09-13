@@ -160,7 +160,7 @@ DWORD CSyncSerialComm::ConfigPort(DWORD dwBaudRate, DWORD dwTimeOutInSec)
 // byte to read from the input stream
 //////////////////////////////////////////////////////////////////////
 
-DWORD CSyncSerialComm::Read(char * const pszBuf, DWORD *dwSize)
+DWORD CSyncSerialComm::Read(char * const pszBuf, DWORD bufSize, DWORD *dwSize)
 {
 	DWORD error = ERROR_SUCCESS;
 	std::stringbuf sb;
@@ -175,6 +175,8 @@ DWORD CSyncSerialComm::Read(char * const pszBuf, DWORD *dwSize)
 	{
 		char szBuf;
 		DWORD dwIncommingReadSize;
+		*dwSize = 0;
+		unsigned int ndx = 0;
 
 		do
 		{
@@ -182,15 +184,18 @@ DWORD CSyncSerialComm::Read(char * const pszBuf, DWORD *dwSize)
 			{
 				if(dwIncommingReadSize > 0)
 				{
-					*dwSize += dwIncommingReadSize;
-					sb.sputn(&szBuf, dwIncommingReadSize);
 					if (szBuf == '\r')
 					{
 						break;
 					}
+					*dwSize += dwIncommingReadSize;
+					if (ndx < bufSize - 1)
+					{
+						pszBuf[ndx] = szBuf;
+						ndx += dwIncommingReadSize;
+					}
 				}
 			}
-
 			else
 			{
 				error = ::GetLastError();
@@ -199,9 +204,7 @@ DWORD CSyncSerialComm::Read(char * const pszBuf, DWORD *dwSize)
 
 		} while(dwIncommingReadSize > 0);
 
-		std::string str = sb.str();
-		const char *c_str = str.c_str();
-		strcpy_s(pszBuf, *dwSize, c_str);
+		pszBuf[ndx] = '\0';
 	
 		return error;
 	}

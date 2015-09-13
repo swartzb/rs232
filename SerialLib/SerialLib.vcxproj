@@ -58,9 +58,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>echo copying SerialLib.dll
-copy $(TargetPath) $(SolutionDir)csClient\bin\Debug
-copy $(TargetPath) $(SolutionDir)csReader\bin\Debug</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

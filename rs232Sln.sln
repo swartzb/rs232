@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerialLib", "SerialLib\SerialLib.vcxproj", "{0A58C521-2DF3-407D-B11D-C4F5C411141E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csClient", "csClient\csClient.csproj", "{F0E89DBB-9E79-4487-83E4-188F027CB810}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0A58C521-2DF3-407D-B11D-C4F5C411141E} = {0A58C521-2DF3-407D-B11D-C4F5C411141E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppLib", "CppLib\CppLib.vcxproj", "{8D55F7FB-F496-4CD7-9630-6A21FBB8F884}"
 EndProject
@@ -15,6 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csReader", "csReader\csReader.csproj", "{74F51190-DA86-4E99-BD1B-0AB5F26750D1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0A58C521-2DF3-407D-B11D-C4F5C411141E} = {0A58C521-2DF3-407D-B11D-C4F5C411141E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

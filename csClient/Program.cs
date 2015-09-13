@@ -69,11 +69,15 @@ namespace csClient
 
             StringBuilder sb = new StringBuilder(1024);
             uint sbSize;
-            e = SerialLib.SerialPortRead(sp5, sb, out sbSize);
+            e = SerialLib.SerialPortRead(sp5, sb, (uint)sb.Capacity, out sbSize);
             if (e != 0)
             {
-                Console.WriteLine("csClient SerialPortRead COM5: {0}", e);
+                Console.WriteLine("ERROR - csClient SerialPortRead COM5: {0}", e);
                 return;
+            }
+            else
+            {
+                Console.WriteLine("csClient SerialPortRead COM5: {0}", sb.ToString());
             }
             
             e = SerialLib.SerialPortClose(sp4);

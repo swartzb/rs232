@@ -33,6 +33,10 @@ namespace csReader
 
         [DllImport("SerialLib.dll", CharSet = CharSet.Ansi, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
-        public static extern UInt32 SerialPortRead(IntPtr sp, StringBuilder buf, out UInt32 bufSize);
+        public static extern UInt32 SerialPortRead(IntPtr sp, StringBuilder buf, UInt32 bufSize, out UInt32 bufLen);
+
+        [DllImport("SerialLib.dll", CharSet = CharSet.Ansi, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern UInt32 SerialPortFlush(IntPtr sp);
     }
 }

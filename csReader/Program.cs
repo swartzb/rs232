@@ -30,7 +30,7 @@ namespace csReader
 
             StringBuilder sb = new StringBuilder(1024);
             uint sbSize;
-            e = SerialLib.SerialPortRead(sp, sb, out sbSize);
+            e = SerialLib.SerialPortRead(sp, sb, (uint)sb.Capacity, out sbSize);
             if (e != 0)
             {
                 Console.WriteLine("csReader SerialPortRead: {0}", e);

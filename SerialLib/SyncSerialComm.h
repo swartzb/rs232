@@ -24,7 +24,7 @@ class CSyncSerialComm
 public:
 	DWORD Flush(DWORD dwFlag = PURGE_TXCLEAR | PURGE_RXCLEAR);
 	DWORD Write(const CHAR *pszBuf, DWORD dwSize);
-	DWORD Read(char * const pszBuf, DWORD *dwSize);
+	DWORD Read(char * const pszBuf, DWORD bufSize, DWORD *dwSize);
 	DWORD ConfigPort(DWORD dwBaudRate = CBR_19200, DWORD dwTimeOutInSec = 5);
 	DWORD Close();
 	DWORD Open();

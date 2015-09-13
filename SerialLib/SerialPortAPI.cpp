@@ -31,9 +31,9 @@ DWORD __stdcall SerialPortWrite(CSyncSerialComm *sp, const CHAR *pszBuf, DWORD d
 	return sp->Write(pszBuf, dwSize);
 }
 
-DWORD __stdcall SerialPortRead(CSyncSerialComm *sp, char * const pszBuf, DWORD *dwSize)
+DWORD __stdcall SerialPortRead(CSyncSerialComm *sp, char * const pszBuf, DWORD bufSize, DWORD *dwSize)
 {
-	return sp->Read(pszBuf, dwSize);
+	return sp->Read(pszBuf, bufSize, dwSize);
 }
 
 DWORD __stdcall SerialPortFlush(CSyncSerialComm *sp)
