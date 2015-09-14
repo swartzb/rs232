@@ -81,10 +81,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SerialPortAPI.cpp" />
+    <ClCompile Include="SyncSerial.cpp" />
     <ClCompile Include="SyncSerialComm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SerialPortAPI.h" />
+    <ClInclude Include="SyncSerial.h" />
     <ClInclude Include="SyncSerialComm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
