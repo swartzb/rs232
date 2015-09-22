@@ -29,7 +29,7 @@ namespace SerialWrapperLib
 
         public SerialPort(string portName)
         {
-            PortName = portName;
+            PortName = "\\\\.\\" + portName;
         }
 
         public string PortName { get; set; }

@@ -1,5 +1,6 @@
 #include "SyncSerial.h"
 #include <assert.h>
+#include <stdio.h>
 
 DWORD __stdcall OpenSerialPort(HANDLE *h, LPCWSTR portName)
 {
@@ -158,47 +159,66 @@ DWORD __stdcall ReadSerialPort(HANDLE h, char * const pszBuf, DWORD bufSize, DWO
 	DWORD error = ERROR_SUCCESS;
 	DWORD dwEventMask;
 
-	if (!SetCommMask(h, EV_RXCHAR)) /* Setting Event Type */
+	if (!SetCommMask(h, EV_BREAK | EV_ERR | EV_RXCHAR)) /* Setting Event Type */
 	{
 		return ::GetLastError();
 	}
 
 	if (WaitCommEvent(h, &dwEventMask, NULL)) /* Waiting For Event to Occur */
 	{
-		char szBuf;
-		DWORD dwIncommingReadSize;
-		*dwSize = 0;
-		unsigned int ndx = 0;
-
-		do
+		if (dwEventMask & EV_BREAK)
 		{
-			if (ReadFile(h, &szBuf, 1, &dwIncommingReadSize, NULL) != 0)
+			_snprintf_s(pszBuf, bufSize, _TRUNCATE, "BREAK received");
+			return error;
+		}
+		else if (dwEventMask & EV_ERR)
+		{
+			_snprintf_s(pszBuf, bufSize, _TRUNCATE, "Line status error occurred");
+			return error;
+		}
+		else if (dwEventMask & EV_RXCHAR)
+		{
+			char szBuf;
+			DWORD dwIncommingReadSize;
+			*dwSize = 0;
+			unsigned int ndx = 0;
+
+			do
 			{
-				if (dwIncommingReadSize > 0)
+				if (ReadFile(h, &szBuf, 1, &dwIncommingReadSize, NULL) != 0)
 				{
-					if (szBuf == '\r')
+					if (dwIncommingReadSize > 0)
 					{
-						break;
-					}
-					*dwSize += dwIncommingReadSize;
-					if (ndx < bufSize - 1)
-					{
-						pszBuf[ndx] = szBuf;
-						ndx += dwIncommingReadSize;
+						if (szBuf == '\r')
+						{
+							break;
+						}
+						*dwSize += dwIncommingReadSize;
+						if (ndx < bufSize - 1)
+						{
+							pszBuf[ndx] = szBuf;
+							ndx += dwIncommingReadSize;
+						}
 					}
 				}
-			}
-			else
-			{
-				error = ::GetLastError();
-				break;
-			}
+				else
+				{
+					error = ::GetLastError();
+					break;
+				}
 
-		} while (dwIncommingReadSize > 0);
+			} while (dwIncommingReadSize > 0);
 
-		pszBuf[ndx] = '\0';
+			pszBuf[ndx] = '\0';
 
-		return error;
+			return error;
+
+		}
+		else
+		{
+			_snprintf_s(pszBuf, bufSize, _TRUNCATE, "unknown COMM event");
+			return error;
+		}
 	}
 	else
 	{

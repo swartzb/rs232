@@ -50,6 +50,32 @@ namespace SerialTest
             //this.Content = sb.ToString();
         }
 
+        public LogFile TxLog
+        {
+            get
+            {
+                if (_TxLog == null)
+                {
+                    _TxLog = new LogFile("Tx");
+                }
+                return _TxLog; 
+            }
+        }
+        private LogFile _TxLog = null;
+
+        public LogFile RxLog
+        {
+            get
+            {
+                if (_RxLog == null)
+                {
+                    _RxLog = new LogFile("Rx");
+                }
+                return _RxLog;
+            }
+        }
+        private LogFile _RxLog = null;
+
         public string[] PortNames
         {
             get
@@ -70,6 +96,7 @@ namespace SerialTest
             {
                 if(_TxMessage != value)
                 {
+                    TxLog.Append(value);
                     _TxMessage = value;
                     RaisePropertyChanged("TxMessage");
                 }
@@ -84,6 +111,7 @@ namespace SerialTest
             {
                 if (_RxMessage != value)
                 {
+                    RxLog.Append(value);
                     _RxMessage = value;
                     RaisePropertyChanged("RxMessage");
                 }
@@ -92,6 +120,11 @@ namespace SerialTest
         private string _RxMessage = string.Empty;
 
         AutoResetEvent RxReady;
+
+        void OnTxMessage(string msg)
+        {
+            TxMessage = msg;
+        }
 
         void OnRxMessage(string msg)
         {
@@ -109,42 +142,15 @@ namespace SerialTest
         {
             RxReady = new AutoResetEvent(false);
 
-            SWL.SerialPort spTx = new SWL.SerialPort((string)lbPorts.SelectedItems[0]);
-            uint err = spTx.Open();
-            if (err != 0)
-            {
-                return;
-            }
-
-            err = spTx.Config();
-            if (err != 0)
-            {
-                return;
-            }
-
-            err = spTx.Flush();
-            if (err != 0)
-            {
-                return;
-            }
+            RxMessage = string.Empty;
+            TxMessage = string.Empty;
 
             ThreadPool.QueueUserWorkItem(
-                new WaitCallback(ThreadProc), lbPorts.SelectedItems[1]);
+                new WaitCallback(RxThreadProc), lbPorts.SelectedItems[1]);
             RxReady.WaitOne();
-            Thread.Sleep(TimeSpan.FromSeconds(1.0));
-
-            TxMessage = "hello";
-            err = spTx.Write(TxMessage + "\r");
-            if (err != 0)
-            {
-                return;
-            }
-
-            err = spTx.Close();
-            if (err != 0)
-            {
-                return;
-            }
+            Thread.Sleep(TimeSpan.FromSeconds(0.1));
+            ThreadPool.QueueUserWorkItem(
+                new WaitCallback(TxThreadProc), lbPorts.SelectedItems[0]);
         }
 
 #region INotifyPropertyChanged Members
