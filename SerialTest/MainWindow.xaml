@@ -2,64 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
+        xmlns:res="clr-namespace:ResourceLib;assembly=ResourceLib"
         Title="Serial Port Test"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Width="400"
         SizeToContent="Height">
     <Window.Resources>
-        <s:Double x:Key="stdVal">
-            3.0
-        </s:Double>
-        <Thickness x:Key="stdThick"
-                   Left="{StaticResource stdVal}"
-                   Top="{StaticResource stdVal}"
-                   Right="{StaticResource stdVal}"
-                   Bottom="{StaticResource stdVal}" />
-        <Style x:Key="styBrdr"
-               TargetType="Border">
-            <Setter Property="BorderBrush"
-                    Value="Black" />
-            <Setter Property="Padding"
-                    Value="{StaticResource stdThick}" />
-            <Setter Property="Margin"
-                    Value="{StaticResource stdThick}" />
-        </Style>
-        <Style x:Key="styLbl"
-               TargetType="Label">
-            <Setter Property="Padding"
-                    Value="{StaticResource stdThick}" />
-            <Setter Property="Margin"
-                    Value="{StaticResource stdThick}" />
-            <Setter Property="HorizontalAlignment"
-                    Value="Right" />
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
-        </Style>
-        <Style TargetType="ListBox">
-            <Setter Property="Padding"
-                    Value="{StaticResource stdThick}" />
-            <Setter Property="Margin"
-                    Value="{StaticResource stdThick}" />
-        </Style>
-        <Style TargetType="ListBoxItem">
-            <Setter Property="Margin"
-                    Value="{StaticResource stdThick}" />
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Padding"
-                    Value="{StaticResource stdThick}" />
-            <Setter Property="Margin"
-                    Value="{StaticResource stdThick}" />
-        </Style>
-        <Style x:Key="styTbk"
-               TargetType="TextBlock">
-            <Setter Property="Padding"
-                    Value="{StaticResource stdThick}" />
-            <Setter Property="Margin"
-                    Value="{StaticResource stdThick}" />
-        </Style>
     </Window.Resources>
-    <Border Style="{StaticResource styBrdr}">
+
+    <Border Style="{DynamicResource {x:Static res:CustomResources.styBorder}}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -74,9 +25,11 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0"
                    Grid.Column="0"
-                   Style="{StaticResource styLbl}"
+                   Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
                    Content="Ports" />
-            <ListBox Grid.Row="0"
+            <ListBox Style="{DynamicResource {x:Static res:CustomResources.styListBox}}"
+                     ItemContainerStyle="{DynamicResource {x:Static res:CustomResources.styListBoxItem}}"
+                     Grid.Row="0"
                      Grid.Column="1"
                      x:Name="lbPorts"
                      ItemsSource="{Binding Path=PortNames, Mode=OneTime}"
@@ -85,30 +38,31 @@
             <Button x:Name="btnStart"
                     Grid.Row="1"
                     Grid.Column="1"
+                    Style="{DynamicResource {x:Static res:CustomResources.styButton}}"
                     Content="Start"
                     HorizontalAlignment="Center"
                     IsEnabled="False"
                     Click="OnClick" />
             <Label Grid.Row="2"
                    Grid.Column="0"
-                   Style="{StaticResource styLbl}"
+                   Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
                    Content="Tx" />
             <Border Grid.Row="2"
                     Grid.Column="1"
-                    Style="{StaticResource styBrdr}"
+                    Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
                     BorderThickness="1">
-                <TextBlock Style="{StaticResource styTbk}"
+                <TextBlock Style="{DynamicResource {x:Static res:CustomResources.styTextBlock}}"
                            Text="{Binding Path=TxMessage, Mode=OneWay}" />
             </Border>
             <Label Grid.Row="3"
                    Grid.Column="0"
-                   Style="{StaticResource styLbl}"
+                   Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
                    Content="Rx" />
             <Border Grid.Row="3"
                     Grid.Column="1"
-                    Style="{StaticResource styBrdr}"
+                    Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
                     BorderThickness="1">
-                <TextBlock Style="{StaticResource styTbk}"
+                <TextBlock Style="{DynamicResource {x:Static res:CustomResources.styTextBlock}}"
                            Text="{Binding Path=RxMessage, Mode=OneWay}" />
             </Border>
         </Grid>
