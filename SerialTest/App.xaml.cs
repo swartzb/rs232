@@ -37,6 +37,8 @@ namespace SerialTest
             //err = sp4.Close();
             //err = sp5.Close();
 
+            Style sty = (Style)FindResource(typeof(System.Windows.Controls.Button));
+
             return;
         }
     }

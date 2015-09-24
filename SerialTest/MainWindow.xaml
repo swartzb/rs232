@@ -1,4 +1,5 @@
-﻿<Window x:Class="SerialTest.MainWindow"
+﻿<Window xmlns:CtrlLib="clr-namespace:CtrlLib;assembly=CtrlLib"
+        x:Class="SerialTest.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
@@ -17,12 +18,14 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+
             <Label Grid.Row="0"
                    Grid.Column="0"
                    Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
@@ -35,30 +38,40 @@
                      ItemsSource="{Binding Path=PortNames, Mode=OneTime}"
                      SelectionMode="Extended"
                      SelectionChanged="OnSelectionChanged" />
+
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
+                   Content="Run Time" />
+            <CtrlLib:TimeSpanCtrl Grid.Row="1"
+                                  Grid.Column="1" />
+
             <Button x:Name="btnStart"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="1"
                     Style="{DynamicResource {x:Static res:CustomResources.styButton}}"
                     Content="Start"
                     HorizontalAlignment="Center"
                     IsEnabled="False"
                     Click="OnClick" />
-            <Label Grid.Row="2"
+
+            <Label Grid.Row="3"
                    Grid.Column="0"
                    Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
                    Content="Tx" />
-            <Border Grid.Row="2"
+            <Border Grid.Row="3"
                     Grid.Column="1"
                     Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
                     BorderThickness="1">
                 <TextBlock Style="{DynamicResource {x:Static res:CustomResources.styTextBlock}}"
                            Text="{Binding Path=TxMessage, Mode=OneWay}" />
             </Border>
-            <Label Grid.Row="3"
+
+            <Label Grid.Row="4"
                    Grid.Column="0"
                    Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
                    Content="Rx" />
-            <Border Grid.Row="3"
+            <Border Grid.Row="4"
                     Grid.Column="1"
                     Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
                     BorderThickness="1">

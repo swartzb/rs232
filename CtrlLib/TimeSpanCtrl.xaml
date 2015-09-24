@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="CtrlLib.TimeSpanCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:CtrlLib"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Row="0"
+                Grid.Column="0"
+                Click="OnIncreaseHoursClick">
+            <Image Source="Images/GlyphUp.png" />
+        </Button>
+        <Label Grid.Row="1"
+               Grid.Column="0"
+               Content="hr" />
+        <Button Grid.Row="2"
+                Grid.Column="0"
+                Click="OnDecreaseHoursClick">
+            <Image Source="Images/GlyphDown.png" />
+        </Button>
+
+        <Button Grid.Row="0"
+                Grid.Column="1"
+                Click="OnIncreaseMinutesClick">
+            <Image Source="Images/GlyphUp.png" />
+        </Button>
+        <Label Grid.Row="1"
+               Grid.Column="1"
+               Content="min" />
+        <Button Grid.Row="2"
+                Grid.Column="1"
+                Click="OnDecreaseMinutesClick">
+            <Image Source="Images/GlyphDown.png" />
+        </Button>
+
+        <Button Grid.Row="0"
+                Grid.Column="2"
+                Click="OnIncreaseSecondsClick">
+            <Image Source="Images/GlyphUp.png" />
+        </Button>
+        <Label Grid.Row="1"
+               Grid.Column="2"
+               Content="sec" />
+        <Button Grid.Row="2"
+                Grid.Column="2"
+                Click="OnDecreaseSecondsClick">
+            <Image Source="Images/GlyphDown.png" />
+        </Button>
+
+        <Label Grid.Row="1"
+               Grid.Column="3"
+               Content="{Binding TheTimeSpan}" />
+    </Grid>
+</UserControl>

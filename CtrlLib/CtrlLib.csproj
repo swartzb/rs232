@@ -4,18 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{738830B1-6477-45A2-84FA-4658AE71F25A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{25E0425A-74CC-4A56-A9A4-8C884AA57534}</ProjectGuid>
+    <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SerialTest</RootNamespace>
-    <AssemblyName>SerialTest</AssemblyName>
+    <RootNamespace>CtrlLib</RootNamespace>
+    <AssemblyName>CtrlLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -49,24 +47,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="LogFile.cs" />
-    <Compile Include="ThreadProc.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="TimeSpanCtrl.xaml.cs">
+      <DependentUpon>TimeSpanCtrl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
+    <Compile Include="CustomControl1.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="TimeSpanCtrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -92,22 +86,10 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CtrlLib\CtrlLib.csproj">
-      <Project>{25e0425a-74cc-4a56-a9a4-8c884aa57534}</Project>
-      <Name>CtrlLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ResourceLib\ResourceLib.csproj">
-      <Project>{57110775-7653-4737-863e-1fb29b8e0cd4}</Project>
-      <Name>ResourceLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SerialWrapperLib\SerialWrapperLib.csproj">
-      <Project>{5a823fad-b576-4239-8788-5a79505202ec}</Project>
-      <Name>SerialWrapperLib</Name>
-    </ProjectReference>
+    <Resource Include="Images\GlyphDown.png" />
+    <Resource Include="Images\GlyphUp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
