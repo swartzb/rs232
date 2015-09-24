@@ -24,8 +24,13 @@ namespace SerialTest
 
             string fileName = baseName + ".txt";
             _fullFileName = Path.Combine(folderPath, fileName);
+
+            using (FileStream fs = new FileStream(_fullFileName, FileMode.OpenOrCreate))
+            {
+                fs.SetLength(0);
+            }
         }
-    
+
         public void Append(string data)
         {
             using (StreamWriter sw = File.AppendText(_fullFileName))

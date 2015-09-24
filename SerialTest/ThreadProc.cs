@@ -10,12 +10,11 @@ namespace SerialTest
 {
     public partial class MainWindow
     {
-        int MAX_I = 5;
-        
         public void TxThreadProc(object state)
         {
             string txPort = (string)state;
             Action<string> onNewMessage = new Action<string>(OnTxMessage);
+            Func<bool> doneYet = new Func<bool>(AreWeDone);
 
             SWL.SerialPort spTx = new SWL.SerialPort(txPort);
             uint err = spTx.Open();
@@ -39,10 +38,10 @@ namespace SerialTest
                 return;
             }
 
-            for (int i = 0; i < MAX_I; i++)
+            while (!Dispatcher.Invoke(doneYet))
             {
                 DateTime dtNow = DateTime.Now;
-                string msg = dtNow.ToString("yyyy.MM.dd.HH.mm.ss.ff");
+                string msg = dtNow.ToString("U");
                 err = spTx.Write(msg + "\r");
                 if (err != 0)
                 {
@@ -69,6 +68,7 @@ namespace SerialTest
         {
             string rxPort = (string)state;
             Action<string> onNewMessage = new Action<string>(OnRxMessage);
+            Func<bool> doneYet = new Func<bool>(AreWeDone);
 
             SWL.SerialPort spRx = new SWL.SerialPort(rxPort);
             uint err = spRx.Open();
@@ -96,7 +96,7 @@ namespace SerialTest
             UInt32 sbSize;
             RxReady.Set();
 
-            for (int i = 0; i < MAX_I; i++)
+            while (!Dispatcher.Invoke(doneYet))
             {
                 err = spRx.Read(sb, out sbSize);
                 if (err != 0)

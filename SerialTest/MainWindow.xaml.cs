@@ -120,6 +120,24 @@ namespace SerialTest
         private string _RxMessage = string.Empty;
 
         AutoResetEvent RxReady;
+        DateTime FinishTime;
+
+        bool AreWeDone()
+        {
+            TimeSpan remaining = FinishTime - DateTime.Now;
+            timeSpan.TheTimeSpan = new TimeSpan(remaining.Days, remaining.Hours, remaining.Minutes, remaining.Seconds);
+            if (remaining > TimeSpan.FromSeconds(0.0))
+            {
+                return false;
+            }
+            else
+            {
+                lbPorts.IsEnabled = true;
+                btnStart.IsEnabled = true;
+                btnCancel.IsEnabled = false;
+                return true;
+            }
+        }
 
         void OnTxMessage(string msg)
         {
@@ -138,12 +156,16 @@ namespace SerialTest
             return;
         }
 
-        private void OnClick(object sender, RoutedEventArgs e)
+        private void OnStart(object sender, RoutedEventArgs e)
         {
             RxReady = new AutoResetEvent(false);
 
             RxMessage = string.Empty;
             TxMessage = string.Empty;
+            lbPorts.IsEnabled = false;
+            btnStart.IsEnabled = false;
+            btnCancel.IsEnabled = true;
+            FinishTime = DateTime.Now + timeSpan.TheTimeSpan;
 
             ThreadPool.QueueUserWorkItem(
                 new WaitCallback(RxThreadProc), lbPorts.SelectedItems[1]);
@@ -166,6 +188,11 @@ namespace SerialTest
         }
 
 #endregion
+
+        private void OnCancel(object sender, RoutedEventArgs e)
+        {
+
+        }
 
     }
 }

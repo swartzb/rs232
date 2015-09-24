@@ -42,18 +42,34 @@
             <Label Grid.Row="1"
                    Grid.Column="0"
                    Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
-                   Content="Run Time" />
-            <CtrlLib:TimeSpanCtrl Grid.Row="1"
-                                  Grid.Column="1" />
-
-            <Button x:Name="btnStart"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Style="{DynamicResource {x:Static res:CustomResources.styButton}}"
-                    Content="Start"
-                    HorizontalAlignment="Center"
-                    IsEnabled="False"
-                    Click="OnClick" />
+                   Content="Time Remaining" />
+            <CtrlLib:TimeSpanCtrl x:Name="timeSpan"
+                                  Grid.Row="1"
+                                  Grid.Column="1"
+                                  TheTimeSpan="0:1:0" />
+            <Grid Grid.Row="2"
+                  Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnStart"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{DynamicResource {x:Static res:CustomResources.styButton}}"
+                        Content="Start"
+                        HorizontalAlignment="Center"
+                        IsEnabled="False"
+                        Click="OnStart" />
+                <Button x:Name="btnCancel"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Style="{DynamicResource {x:Static res:CustomResources.styButton}}"
+                        Content="Cancel"
+                        HorizontalAlignment="Center"
+                        IsEnabled="False"
+                        Click="OnCancel" />
+            </Grid>
 
             <Label Grid.Row="3"
                    Grid.Column="0"
