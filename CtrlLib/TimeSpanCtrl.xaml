@@ -21,53 +21,53 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Row="0"
-                Grid.Column="0"
-                Click="OnIncreaseHoursClick"
-                IsEnabled="{Binding Path=AreButtonsEnabled}">
+        <RepeatButton Grid.Row="0"
+                      Grid.Column="0"
+                      Click="OnIncreaseHoursClick"
+                      IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphUp.png" />
-        </Button>
+        </RepeatButton>
         <Label Grid.Row="1"
                Grid.Column="0"
                Content="hr" />
-        <Button Grid.Row="2"
-                Grid.Column="0"
-                Click="OnDecreaseHoursClick"
-                IsEnabled="{Binding Path=AreButtonsEnabled}">
+        <RepeatButton Grid.Row="2"
+                      Grid.Column="0"
+                      Click="OnDecreaseHoursClick"
+                      IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphDown.png" />
-        </Button>
+        </RepeatButton>
 
-        <Button Grid.Row="0"
-                Grid.Column="1"
-                Click="OnIncreaseMinutesClick"
-                IsEnabled="{Binding Path=AreButtonsEnabled}">
+        <RepeatButton Grid.Row="0"
+                      Grid.Column="1"
+                      Click="OnIncreaseMinutesClick"
+                      IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphUp.png" />
-        </Button>
+        </RepeatButton>
         <Label Grid.Row="1"
                Grid.Column="1"
                Content="min" />
-        <Button Grid.Row="2"
-                Grid.Column="1"
-                Click="OnDecreaseMinutesClick"
-                IsEnabled="{Binding Path=AreButtonsEnabled}">
+        <RepeatButton Grid.Row="2"
+                      Grid.Column="1"
+                      Click="OnDecreaseMinutesClick"
+                      IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphDown.png" />
-        </Button>
+        </RepeatButton>
 
-        <Button Grid.Row="0"
-                Grid.Column="2"
-                Click="OnIncreaseSecondsClick"
-                IsEnabled="{Binding Path=AreButtonsEnabled}">
+        <RepeatButton Grid.Row="0"
+                      Grid.Column="2"
+                      Click="OnIncreaseSecondsClick"
+                      IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphUp.png" />
-        </Button>
+        </RepeatButton>
         <Label Grid.Row="1"
                Grid.Column="2"
                Content="sec" />
-        <Button Grid.Row="2"
-                Grid.Column="2"
-                Click="OnDecreaseSecondsClick"
-                IsEnabled="{Binding Path=AreButtonsEnabled}">
+        <RepeatButton Grid.Row="2"
+                      Grid.Column="2"
+                      Click="OnDecreaseSecondsClick"
+                      IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphDown.png" />
-        </Button>
+        </RepeatButton>
 
         <Label Grid.Row="1"
                Grid.Column="3"
