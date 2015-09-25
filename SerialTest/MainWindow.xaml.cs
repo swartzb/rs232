@@ -125,7 +125,7 @@ namespace SerialTest
         bool AreWeDone()
         {
             TimeSpan remaining = FinishTime - DateTime.Now;
-            timeSpan.TheTimeSpan = new TimeSpan(remaining.Days, remaining.Hours, remaining.Minutes, remaining.Seconds);
+            timeSpan.TimeRemaining = new TimeSpan(remaining.Days, remaining.Hours, remaining.Minutes, remaining.Seconds);
             if (remaining > TimeSpan.FromSeconds(0.0))
             {
                 return false;
@@ -135,6 +135,7 @@ namespace SerialTest
                 lbPorts.IsEnabled = true;
                 btnStart.IsEnabled = true;
                 btnCancel.IsEnabled = false;
+                timeSpan.AreButtonsEnabled = true;
                 return true;
             }
         }
@@ -165,7 +166,8 @@ namespace SerialTest
             lbPorts.IsEnabled = false;
             btnStart.IsEnabled = false;
             btnCancel.IsEnabled = true;
-            FinishTime = DateTime.Now + timeSpan.TheTimeSpan;
+            timeSpan.AreButtonsEnabled = false;
+            FinishTime = DateTime.Now + timeSpan.TimeRemaining;
 
             ThreadPool.QueueUserWorkItem(
                 new WaitCallback(RxThreadProc), lbPorts.SelectedItems[1]);
@@ -193,6 +195,5 @@ namespace SerialTest
         {
 
         }
-
     }
 }

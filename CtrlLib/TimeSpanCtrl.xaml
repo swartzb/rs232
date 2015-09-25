@@ -23,7 +23,8 @@
 
         <Button Grid.Row="0"
                 Grid.Column="0"
-                Click="OnIncreaseHoursClick">
+                Click="OnIncreaseHoursClick"
+                IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphUp.png" />
         </Button>
         <Label Grid.Row="1"
@@ -31,13 +32,15 @@
                Content="hr" />
         <Button Grid.Row="2"
                 Grid.Column="0"
-                Click="OnDecreaseHoursClick">
+                Click="OnDecreaseHoursClick"
+                IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphDown.png" />
         </Button>
 
         <Button Grid.Row="0"
                 Grid.Column="1"
-                Click="OnIncreaseMinutesClick">
+                Click="OnIncreaseMinutesClick"
+                IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphUp.png" />
         </Button>
         <Label Grid.Row="1"
@@ -45,13 +48,15 @@
                Content="min" />
         <Button Grid.Row="2"
                 Grid.Column="1"
-                Click="OnDecreaseMinutesClick">
+                Click="OnDecreaseMinutesClick"
+                IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphDown.png" />
         </Button>
 
         <Button Grid.Row="0"
                 Grid.Column="2"
-                Click="OnIncreaseSecondsClick">
+                Click="OnIncreaseSecondsClick"
+                IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphUp.png" />
         </Button>
         <Label Grid.Row="1"
@@ -59,12 +64,13 @@
                Content="sec" />
         <Button Grid.Row="2"
                 Grid.Column="2"
-                Click="OnDecreaseSecondsClick">
+                Click="OnDecreaseSecondsClick"
+                IsEnabled="{Binding Path=AreButtonsEnabled}">
             <Image Source="Images/GlyphDown.png" />
         </Button>
 
         <Label Grid.Row="1"
                Grid.Column="3"
-               Content="{Binding TheTimeSpan}" />
+               Content="{Binding Path=TimeRemaining}" />
     </Grid>
 </UserControl>

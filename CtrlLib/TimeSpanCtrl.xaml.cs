@@ -28,47 +28,61 @@ namespace CtrlLib
 
         private void OnIncreaseHoursClick(object sender, RoutedEventArgs e)
         {
-            TheTimeSpan += TimeSpan.FromHours(1.0);
+            TimeRemaining += TimeSpan.FromHours(1.0);
         }
 
         private void OnDecreaseHoursClick(object sender, RoutedEventArgs e)
         {
-            TheTimeSpan -= TimeSpan.FromHours(1.0);
+            TimeRemaining -= TimeSpan.FromHours(1.0);
         }
 
         private void OnIncreaseMinutesClick(object sender, RoutedEventArgs e)
         {
-            TheTimeSpan += TimeSpan.FromMinutes(1.0);
+            TimeRemaining += TimeSpan.FromMinutes(1.0);
         }
 
         private void OnDecreaseMinutesClick(object sender, RoutedEventArgs e)
         {
-            TheTimeSpan -= TimeSpan.FromMinutes(1.0);
+            TimeRemaining -= TimeSpan.FromMinutes(1.0);
         }
 
         private void OnIncreaseSecondsClick(object sender, RoutedEventArgs e)
         {
-            TheTimeSpan += TimeSpan.FromSeconds(1.0);
+            TimeRemaining += TimeSpan.FromSeconds(1.0);
         }
 
         private void OnDecreaseSecondsClick(object sender, RoutedEventArgs e)
         {
-            TheTimeSpan -= TimeSpan.FromSeconds(1.0);
+            TimeRemaining -= TimeSpan.FromSeconds(1.0);
         }
 
-        public TimeSpan TheTimeSpan
+        public bool AreButtonsEnabled
         {
-            get { return _TheTimeSpan; }
+            get { return _AreButtonsEnabled; }
             set
             {
-                if (_TheTimeSpan != value)
+                if (_AreButtonsEnabled != value)
                 {
-                    _TheTimeSpan = value;
-                    RaisePropertyChanged("TheTimeSpan");
+                    _AreButtonsEnabled = value;
+                    RaisePropertyChanged("AreButtonsEnabled");
                 }
             }
         }
-        public TimeSpan _TheTimeSpan = TimeSpan.FromSeconds(0.0);
+        public bool _AreButtonsEnabled = true;
+
+        public TimeSpan TimeRemaining
+        {
+            get { return _TimeRemaining; }
+            set
+            {
+                if (_TimeRemaining != value)
+                {
+                    _TimeRemaining = value;
+                    RaisePropertyChanged("TimeRemaining");
+                }
+            }
+        }
+        public TimeSpan _TimeRemaining = TimeSpan.FromSeconds(0.0);
 
 
 #region INotifyPropertyChanged Members

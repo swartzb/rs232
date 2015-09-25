@@ -6,8 +6,8 @@
         xmlns:res="clr-namespace:ResourceLib;assembly=ResourceLib"
         Title="Serial Port Test"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Width="400"
-        SizeToContent="Height">
+        SizeToContent="Height"
+        Width="400">
     <Window.Resources>
     </Window.Resources>
 
@@ -46,7 +46,7 @@
             <CtrlLib:TimeSpanCtrl x:Name="timeSpan"
                                   Grid.Row="1"
                                   Grid.Column="1"
-                                  TheTimeSpan="0:1:0" />
+                                  TimeRemaining="0:1:0" />
             <Grid Grid.Row="2"
                   Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -78,7 +78,8 @@
             <Border Grid.Row="3"
                     Grid.Column="1"
                     Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
-                    BorderThickness="1">
+                    BorderThickness="1"
+                    Grid.ColumnSpan="2">
                 <TextBlock Style="{DynamicResource {x:Static res:CustomResources.styTextBlock}}"
                            Text="{Binding Path=TxMessage, Mode=OneWay}" />
             </Border>
@@ -90,7 +91,8 @@
             <Border Grid.Row="4"
                     Grid.Column="1"
                     Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
-                    BorderThickness="1">
+                    BorderThickness="1"
+                    Grid.ColumnSpan="2">
                 <TextBlock Style="{DynamicResource {x:Static res:CustomResources.styTextBlock}}"
                            Text="{Binding Path=RxMessage, Mode=OneWay}" />
             </Border>
