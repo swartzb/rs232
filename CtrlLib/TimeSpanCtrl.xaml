@@ -4,11 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CtrlLib"
+             xmlns:res="clr-namespace:ResourceLib;assembly=ResourceLib"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <Grid>
+    <Border Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
+            BorderThickness="1">
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -73,4 +76,5 @@
                Grid.Column="3"
                Content="{Binding Path=TimeRemaining}" />
     </Grid>
+    </Border>
 </UserControl>
