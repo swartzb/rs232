@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace CtrlLib
 {
@@ -23,6 +24,10 @@ namespace CtrlLib
     {
         public TimeSpanCtrl()
         {
+            _CountDownTimer = new DispatcherTimer();
+            _CountDownTimer.Interval = TimeSpan.FromSeconds(1.0);
+            _CountDownTimer.Tick += OnTick;
+
             InitializeComponent();
         }
 
@@ -56,19 +61,28 @@ namespace CtrlLib
             TimeRemaining -= TimeSpan.FromSeconds(1.0);
         }
 
-        public bool AreButtonsEnabled
+        public bool IsRunning
         {
-            get { return _AreButtonsEnabled; }
+            get { return _IsRunning; }
             set
             {
-                if (_AreButtonsEnabled != value)
+                if (_IsRunning != value)
                 {
-                    _AreButtonsEnabled = value;
-                    RaisePropertyChanged("AreButtonsEnabled");
+                    if (value)
+                    {
+                        _FinishTime = DateTime.Now + TimeRemaining;
+                        _CountDownTimer.Start();
+                    }
+                    else
+                    {
+                        _CountDownTimer.Stop();
+                    }
+                    _IsRunning = value;
+                    RaisePropertyChanged("IsRunning");
                 }
             }
         }
-        public bool _AreButtonsEnabled = true;
+        private bool _IsRunning = false;
 
         public TimeSpan TimeRemaining
         {
@@ -82,8 +96,26 @@ namespace CtrlLib
                 }
             }
         }
-        public TimeSpan _TimeRemaining = TimeSpan.FromSeconds(0.0);
+        private TimeSpan _TimeRemaining = TimeSpan.FromSeconds(0.0);
 
+        DateTime _FinishTime;
+        DispatcherTimer _CountDownTimer;
+
+        public bool IsFinished()
+        {
+            return !IsRunning;
+        }
+
+        void OnTick(object sender, EventArgs e)
+        {
+            DateTime dtNow = DateTime.Now;
+            TimeSpan remaining = _FinishTime - dtNow;
+            TimeRemaining = new TimeSpan(remaining.Days, remaining.Hours, remaining.Minutes, remaining.Seconds);
+            if (TimeRemaining < TimeSpan.FromSeconds(0.0))
+            {
+                IsRunning = false;
+            }
+        }
 
 #region INotifyPropertyChanged Members
 

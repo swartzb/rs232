@@ -14,7 +14,7 @@ namespace SerialTest
         {
             string txPort = (string)state;
             Action<string> onNewMessage = new Action<string>(OnTxMessage);
-            Func<bool> doneYet = new Func<bool>(AreWeDone);
+            Func<bool> doneYet = new Func<bool>(timeRemaining.IsFinished);
 
             SWL.SerialPort spTx = new SWL.SerialPort(txPort);
             uint err = spTx.Open();
@@ -68,7 +68,7 @@ namespace SerialTest
         {
             string rxPort = (string)state;
             Action<string> onNewMessage = new Action<string>(OnRxMessage);
-            Func<bool> doneYet = new Func<bool>(AreWeDone);
+            Func<bool> doneYet = new Func<bool>(timeRemaining.IsFinished);
 
             SWL.SerialPort spRx = new SWL.SerialPort(rxPort);
             uint err = spRx.Open();

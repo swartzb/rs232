@@ -9,6 +9,18 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <UserControl.Resources>
+        <Style TargetType="RepeatButton"
+               BasedOn="{StaticResource {x:Type RepeatButton}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsRunning}"
+                             Value="True">
+                    <Setter Property="IsEnabled"
+                            Value="False" />
+                </DataTrigger>
+                </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Border Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
             BorderThickness="1">
         <Grid>

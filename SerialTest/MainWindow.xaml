@@ -43,7 +43,7 @@
                    Grid.Column="0"
                    Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
                    Content="Time Remaining" />
-            <CtrlLib:TimeSpanCtrl x:Name="timeSpan"
+            <CtrlLib:TimeSpanCtrl x:Name="timeRemaining"
                                   Grid.Row="1"
                                   Grid.Column="1"
                                   TimeRemaining="0:1:0" />

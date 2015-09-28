@@ -120,25 +120,6 @@ namespace SerialTest
         private string _RxMessage = string.Empty;
 
         AutoResetEvent RxReady;
-        DateTime FinishTime;
-
-        bool AreWeDone()
-        {
-            TimeSpan remaining = FinishTime - DateTime.Now;
-            timeSpan.TimeRemaining = new TimeSpan(remaining.Days, remaining.Hours, remaining.Minutes, remaining.Seconds);
-            if (remaining > TimeSpan.FromSeconds(0.0))
-            {
-                return false;
-            }
-            else
-            {
-                lbPorts.IsEnabled = true;
-                btnStart.IsEnabled = true;
-                btnCancel.IsEnabled = false;
-                timeSpan.AreButtonsEnabled = true;
-                return true;
-            }
-        }
 
         void OnTxMessage(string msg)
         {
@@ -166,8 +147,6 @@ namespace SerialTest
             lbPorts.IsEnabled = false;
             btnStart.IsEnabled = false;
             btnCancel.IsEnabled = true;
-            timeSpan.AreButtonsEnabled = false;
-            FinishTime = DateTime.Now + timeSpan.TimeRemaining;
 
             ThreadPool.QueueUserWorkItem(
                 new WaitCallback(RxThreadProc), lbPorts.SelectedItems[1]);
@@ -175,6 +154,7 @@ namespace SerialTest
             Thread.Sleep(TimeSpan.FromSeconds(0.1));
             ThreadPool.QueueUserWorkItem(
                 new WaitCallback(TxThreadProc), lbPorts.SelectedItems[0]);
+            timeRemaining.IsRunning = true;
         }
 
 #region INotifyPropertyChanged Members
