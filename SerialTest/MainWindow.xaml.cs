@@ -146,7 +146,6 @@ namespace SerialTest
             TxMessage = string.Empty;
             lbPorts.IsEnabled = false;
             btnStart.IsEnabled = false;
-            btnCancel.IsEnabled = true;
 
             ThreadPool.QueueUserWorkItem(
                 new WaitCallback(RxThreadProc), lbPorts.SelectedItems[1]);

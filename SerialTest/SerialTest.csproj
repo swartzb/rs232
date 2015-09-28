@@ -55,6 +55,11 @@
     </ApplicationDefinition>
     <Compile Include="LogFile.cs" />
     <Compile Include="ThreadProc.cs" />
+    <Page Include="..\CtrlLib\Dictionary1.xaml">
+      <Link>Dictionary1.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

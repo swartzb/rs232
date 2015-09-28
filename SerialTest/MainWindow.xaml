@@ -9,9 +9,14 @@
         SizeToContent="Height"
         Width="400">
     <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary1.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
-    <Border Style="{DynamicResource {x:Static res:CustomResources.styBorder}}">
+    <Border Style="{StaticResource styBorder}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -28,7 +33,7 @@
 
             <Label Grid.Row="0"
                    Grid.Column="0"
-                   Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
+                   Style="{StaticResource styLabel}"
                    Content="Ports" />
             <ListBox Style="{DynamicResource {x:Static res:CustomResources.styListBox}}"
                      ItemContainerStyle="{DynamicResource {x:Static res:CustomResources.styListBoxItem}}"
@@ -41,7 +46,7 @@
 
             <Label Grid.Row="1"
                    Grid.Column="0"
-                   Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
+                   Style="{StaticResource styLabel}"
                    Content="Time Remaining" />
             <CtrlLib:TimeSpanCtrl x:Name="timeRemaining"
                                   Grid.Row="1"
@@ -61,19 +66,29 @@
                         HorizontalAlignment="Center"
                         IsEnabled="False"
                         Click="OnStart" />
-                <Button x:Name="btnCancel"
-                        Grid.Row="0"
+                <Button Grid.Row="0"
                         Grid.Column="1"
-                        Style="{DynamicResource {x:Static res:CustomResources.styButton}}"
                         Content="Cancel"
                         HorizontalAlignment="Center"
-                        IsEnabled="False"
-                        Click="OnCancel" />
+                        Click="OnCancel">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource {x:Type Button}}"
+                               TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=timeRemaining, Path=IsRunning}"
+                                             Value="False">
+                                    <Setter Property="IsEnabled"
+                                            Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
 
             <Label Grid.Row="3"
                    Grid.Column="0"
-                   Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
+                   Style="{StaticResource styLabel}"
                    Content="Tx" />
             <Border Grid.Row="3"
                     Grid.Column="1"
@@ -86,7 +101,7 @@
 
             <Label Grid.Row="4"
                    Grid.Column="0"
-                   Style="{DynamicResource {x:Static res:CustomResources.styLabel}}"
+                   Style="{StaticResource styLabel}"
                    Content="Rx" />
             <Border Grid.Row="4"
                     Grid.Column="1"

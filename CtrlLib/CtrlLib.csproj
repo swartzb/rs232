@@ -50,6 +50,10 @@
     <Compile Include="TimeSpanCtrl.xaml.cs">
       <DependentUpon>TimeSpanCtrl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Dictionary1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TimeSpanCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

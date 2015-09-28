@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CtrlLib.TimeSpanCtrl"
+﻿ <UserControl x:Class="CtrlLib.TimeSpanCtrl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,18 +10,23 @@
              d:DesignWidth="300"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <UserControl.Resources>
-        <Style TargetType="RepeatButton"
-               BasedOn="{StaticResource {x:Type RepeatButton}}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsRunning}"
-                             Value="True">
-                    <Setter Property="IsEnabled"
-                            Value="False" />
-                </DataTrigger>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary1.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="RepeatButton"
+                   BasedOn="{StaticResource {x:Type RepeatButton}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsRunning}"
+                                 Value="True">
+                        <Setter Property="IsEnabled"
+                                Value="False" />
+                    </DataTrigger>
                 </Style.Triggers>
-        </Style>
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
-    <Border Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
+    <Border Style="{StaticResource styBorder}"
             BorderThickness="1">
         <Grid>
         <Grid.RowDefinitions>
@@ -38,8 +43,7 @@
 
         <RepeatButton Grid.Row="0"
                       Grid.Column="0"
-                      Click="OnIncreaseHoursClick"
-                      IsEnabled="{Binding Path=AreButtonsEnabled}">
+                      Click="OnIncreaseHoursClick">
             <Image Source="Images/GlyphUp.png" />
         </RepeatButton>
         <Label Grid.Row="1"
@@ -47,15 +51,13 @@
                Content="hr" />
         <RepeatButton Grid.Row="2"
                       Grid.Column="0"
-                      Click="OnDecreaseHoursClick"
-                      IsEnabled="{Binding Path=AreButtonsEnabled}">
+                      Click="OnDecreaseHoursClick">
             <Image Source="Images/GlyphDown.png" />
         </RepeatButton>
 
         <RepeatButton Grid.Row="0"
                       Grid.Column="1"
-                      Click="OnIncreaseMinutesClick"
-                      IsEnabled="{Binding Path=AreButtonsEnabled}">
+                      Click="OnIncreaseMinutesClick">
             <Image Source="Images/GlyphUp.png" />
         </RepeatButton>
         <Label Grid.Row="1"
@@ -63,15 +65,13 @@
                Content="min" />
         <RepeatButton Grid.Row="2"
                       Grid.Column="1"
-                      Click="OnDecreaseMinutesClick"
-                      IsEnabled="{Binding Path=AreButtonsEnabled}">
+                      Click="OnDecreaseMinutesClick">
             <Image Source="Images/GlyphDown.png" />
         </RepeatButton>
 
         <RepeatButton Grid.Row="0"
                       Grid.Column="2"
-                      Click="OnIncreaseSecondsClick"
-                      IsEnabled="{Binding Path=AreButtonsEnabled}">
+                      Click="OnIncreaseSecondsClick">
             <Image Source="Images/GlyphUp.png" />
         </RepeatButton>
         <Label Grid.Row="1"
@@ -79,8 +79,7 @@
                Content="sec" />
         <RepeatButton Grid.Row="2"
                       Grid.Column="2"
-                      Click="OnDecreaseSecondsClick"
-                      IsEnabled="{Binding Path=AreButtonsEnabled}">
+                      Click="OnDecreaseSecondsClick">
             <Image Source="Images/GlyphDown.png" />
         </RepeatButton>
 
