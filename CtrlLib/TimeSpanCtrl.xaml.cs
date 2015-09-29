@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace CtrlLib
@@ -22,6 +11,15 @@ namespace CtrlLib
     /// </summary>
     public partial class TimeSpanCtrl : UserControl, INotifyPropertyChanged
     {
+        public static readonly RoutedEvent IsDoneEvent = EventManager.RegisterRoutedEvent(
+            "IsDone", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TimeSpanCtrl));
+
+        public event RoutedEventHandler IsDone
+        {
+            add { AddHandler(IsDoneEvent, value); }
+            remove { RemoveHandler(IsDoneEvent, value); }
+        }
+        
         public TimeSpanCtrl()
         {
             _CountDownTimer = new DispatcherTimer();
@@ -76,6 +74,9 @@ namespace CtrlLib
                     else
                     {
                         _CountDownTimer.Stop();
+
+                        RoutedEventArgs args = new RoutedEventArgs(TimeSpanCtrl.IsDoneEvent, this);
+                        RaiseEvent(args);
                     }
                     _IsRunning = value;
                     RaisePropertyChanged("IsRunning");
@@ -101,17 +102,12 @@ namespace CtrlLib
         DateTime _FinishTime;
         DispatcherTimer _CountDownTimer;
 
-        public bool IsFinished()
-        {
-            return !IsRunning;
-        }
-
         void OnTick(object sender, EventArgs e)
         {
             DateTime dtNow = DateTime.Now;
             TimeSpan remaining = _FinishTime - dtNow;
             TimeRemaining = new TimeSpan(remaining.Days, remaining.Hours, remaining.Minutes, remaining.Seconds);
-            if (TimeRemaining < TimeSpan.FromSeconds(0.0))
+            if (TimeRemaining <= TimeSpan.FromSeconds(0.0))
             {
                 IsRunning = false;
             }

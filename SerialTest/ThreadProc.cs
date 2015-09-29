@@ -14,7 +14,6 @@ namespace SerialTest
         {
             string txPort = (string)state;
             Action<string> onNewMessage = new Action<string>(OnTxMessage);
-            Func<bool> doneYet = new Func<bool>(timeRemaining.IsFinished);
             Action amDone = new Action(DecrementThreadCount);
 
             SWL.SerialPort spTx = new SWL.SerialPort(txPort);
@@ -42,7 +41,7 @@ namespace SerialTest
                 return;
             }
 
-            while (!Dispatcher.Invoke(doneYet))
+            while (!RxTxComplete.WaitOne(0))
             {
                 DateTime dtNow = DateTime.Now;
                 string msg = dtNow.ToString("U");
@@ -75,7 +74,6 @@ namespace SerialTest
         {
             string rxPort = (string)state;
             Action<string> onNewMessage = new Action<string>(OnRxMessage);
-            Func<bool> doneYet = new Func<bool>(timeRemaining.IsFinished);
             Action amDone = new Action(DecrementThreadCount);
 
             SWL.SerialPort spRx = new SWL.SerialPort(rxPort);
@@ -107,7 +105,7 @@ namespace SerialTest
             UInt32 sbSize;
             RxReady.Set();
 
-            while (!Dispatcher.Invoke(doneYet))
+            while (!RxTxComplete.WaitOne(0))
             {
                 err = spRx.Read(sb, out sbSize);
                 if (err != 0)

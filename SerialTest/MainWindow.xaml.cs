@@ -15,6 +15,12 @@ namespace SerialTest
             InitializeComponent();
         }
 
+        void OnTimerDone(object sender, RoutedEventArgs e)
+        {
+            RxTxComplete.Set();
+            return;
+        }
+
         public LogFile TxLog
         {
             get

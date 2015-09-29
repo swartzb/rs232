@@ -68,7 +68,8 @@
             <CtrlLib:TimeSpanCtrl x:Name="timeRemaining"
                                   Grid.Row="1"
                                   Grid.Column="1"
-                                  TimeRemaining="0:1:0" />
+                                  TimeRemaining="0:1:0"
+                                  IsDone="OnTimerDone" />
             <Grid Grid.Row="2"
                   Grid.Column="1">
                 <Grid.ColumnDefinitions>
