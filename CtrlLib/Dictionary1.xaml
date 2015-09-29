@@ -48,4 +48,26 @@
                 Value="Center" />
     </Style>
 
+    <Style x:Key="styListBox"
+           TargetType="ListBox">
+        <Setter Property="Padding"
+                Value="{StaticResource stdThickness}" />
+        <Setter Property="Margin"
+                Value="{StaticResource stdThickness}" />
+    </Style>
+
+    <Style x:Key="styListBoxItem"
+           TargetType="ListBoxItem">
+        <Setter Property="Margin"
+                Value="{StaticResource stdThickness}" />
+    </Style>
+
+    <Style x:Key="styTextBlock"
+           TargetType="TextBlock">
+        <Setter Property="Padding"
+                Value="{StaticResource stdThickness}" />
+        <Setter Property="Margin"
+                Value="{StaticResource stdThickness}" />
+    </Style>
+
 </ResourceDictionary>

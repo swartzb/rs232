@@ -4,7 +4,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-        xmlns:res="clr-namespace:ResourceLib;assembly=ResourceLib"
         xmlns:src="clr-namespace:SerialTest"
         Title="Serial Port Test"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -38,13 +37,25 @@
                    Grid.Column="0"
                    Style="{StaticResource styLabel}"
                    Content="Ports" />
-            <ListBox Style="{DynamicResource {x:Static res:CustomResources.styListBox}}"
-                     ItemContainerStyle="{DynamicResource {x:Static res:CustomResources.styListBoxItem}}"
+            <ListBox ItemContainerStyle="{StaticResource styListBoxItem}"
                      Grid.Row="0"
                      Grid.Column="1"
                      x:Name="lbPorts"
                      ItemsSource="{Binding Path=PortNames, Mode=OneTime}"
-                     SelectionMode="Extended" />
+                     SelectionMode="Extended">
+                <ListBox.Style>
+                    <Style BasedOn="{StaticResource styListBox}"
+                           TargetType="ListBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=timeRemaining, Path=IsRunning}"
+                                         Value="True">
+                                <Setter Property="IsEnabled"
+                                        Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.Style>
+            </ListBox>
 
             <Label Grid.Row="1"
                    Grid.Column="0"
@@ -66,7 +77,7 @@
                         Style="{StaticResource styButton}"
                         Click="OnStart">
                     <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource semc}" diag:PresentationTraceSources.TraceLevel="High">
+                        <MultiBinding Converter="{StaticResource semc}" diag:PresentationTraceSources.TraceLevel="None">
                             <Binding ElementName="timeRemaining"
                                      Path="IsRunning"
                                      Mode="OneWay" />
@@ -90,10 +101,10 @@
                    Content="Tx" />
             <Border Grid.Row="3"
                     Grid.Column="1"
-                    Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
+                    Style="{StaticResource styBorder}"
                     BorderThickness="1"
                     Grid.ColumnSpan="2">
-                <TextBlock Style="{DynamicResource {x:Static res:CustomResources.styTextBlock}}"
+                <TextBlock Style="{StaticResource styTextBlock}"
                            Text="{Binding Path=TxMessage, Mode=OneWay}" />
             </Border>
 
@@ -103,10 +114,10 @@
                    Content="Rx" />
             <Border Grid.Row="4"
                     Grid.Column="1"
-                    Style="{DynamicResource {x:Static res:CustomResources.styBorder}}"
+                    Style="{StaticResource styBorder}"
                     BorderThickness="1"
                     Grid.ColumnSpan="2">
-                <TextBlock Style="{DynamicResource {x:Static res:CustomResources.styTextBlock}}"
+                <TextBlock Style="{StaticResource styTextBlock}"
                            Text="{Binding Path=RxMessage, Mode=OneWay}" />
             </Border>
         </Grid>

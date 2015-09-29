@@ -84,12 +84,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ResourceLib\ResourceLib.csproj">
-      <Project>{57110775-7653-4737-863e-1fb29b8e0cd4}</Project>
-      <Name>ResourceLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\GlyphDown.png" />
     <Resource Include="Images\GlyphUp.png" />
   </ItemGroup>

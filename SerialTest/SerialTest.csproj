@@ -106,10 +106,6 @@
       <Project>{25e0425a-74cc-4a56-a9a4-8c884aa57534}</Project>
       <Name>CtrlLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ResourceLib\ResourceLib.csproj">
-      <Project>{57110775-7653-4737-863e-1fb29b8e0cd4}</Project>
-      <Name>ResourceLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SerialWrapperLib\SerialWrapperLib.csproj">
       <Project>{5a823fad-b576-4239-8788-5a79505202ec}</Project>
       <Name>SerialWrapperLib</Name>
