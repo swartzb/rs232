@@ -15,7 +15,7 @@ namespace SerialTest
             InitializeComponent();
         }
 
-        void OnTimerDone(object sender, RoutedEventArgs e)
+        void OnTimerDone(object sender, EventArgs e)
         {
             RxTxComplete.Set();
             return;
