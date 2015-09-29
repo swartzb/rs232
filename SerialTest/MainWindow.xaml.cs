@@ -131,13 +131,6 @@ namespace SerialTest
             RxMessage = msg;
         }
 
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ListBox lb = sender as ListBox;
-            btnStart.IsEnabled = (lb.SelectedItems.Count == 2);
-            return;
-        }
-
         private void OnStart(object sender, RoutedEventArgs e)
         {
             RxReady = new AutoResetEvent(false);
@@ -145,7 +138,6 @@ namespace SerialTest
             RxMessage = string.Empty;
             TxMessage = string.Empty;
             lbPorts.IsEnabled = false;
-            btnStart.IsEnabled = false;
 
             ThreadPool.QueueUserWorkItem(
                 new WaitCallback(RxThreadProc), lbPorts.SelectedItems[1]);

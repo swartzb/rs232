@@ -54,6 +54,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="LogFile.cs" />
+    <Compile Include="StartEnabledMultiConverter.cs" />
     <Compile Include="ThreadProc.cs" />
     <Page Include="..\CtrlLib\Dictionary1.xaml">
       <Link>Dictionary1.xaml</Link>
