@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
 
 namespace SerialTest
@@ -11,14 +9,20 @@ namespace SerialTest
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            bool running = (bool)values[0];
-            int count = (int)values[1];
-            return (!running && (count == 2));
+            if (DesignerProperties.GetIsInDesignMode(new Window()))
+            {
+                return true;
+            }
+            
+            int threads = (int)values[0];
+            int ports = (int)values[1];
+            return ((threads == 0) && (ports == 2));
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            object[] arr = { 0, 0 };
+            return arr;
         }
     }
 }

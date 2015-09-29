@@ -1,8 +1,8 @@
-﻿<Window xmlns:CtrlLib="clr-namespace:CtrlLib;assembly=CtrlLib"
-        x:Class="SerialTest.MainWindow"
+﻿<Window x:Class="SerialTest.MainWindow"
+        x:Name="mainWnd"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:s="clr-namespace:System;assembly=mscorlib"
+        xmlns:CtrlLib="clr-namespace:CtrlLib;assembly=CtrlLib"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:src="clr-namespace:SerialTest"
         Title="Serial Port Test"
@@ -47,7 +47,7 @@
                     <Style BasedOn="{StaticResource styListBox}"
                            TargetType="ListBox">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=timeRemaining, Path=IsRunning}"
+                            <DataTrigger Binding="{Binding ElementName=btnCancel, Path=IsEnabled, diag:PresentationTraceSources.TraceLevel=None}"
                                          Value="True">
                                 <Setter Property="IsEnabled"
                                         Value="False" />
@@ -77,9 +77,11 @@
                         Style="{StaticResource styButton}"
                         Click="OnStart">
                     <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource semc}" diag:PresentationTraceSources.TraceLevel="None">
-                            <Binding ElementName="timeRemaining"
-                                     Path="IsRunning"
+                        <MultiBinding Converter="{StaticResource semc}"
+                                      Mode="OneWay"
+                                      diag:PresentationTraceSources.TraceLevel="High">
+                            <Binding ElementName="mainWnd"
+                                     Path="ThreadCount"
                                      Mode="OneWay" />
                             <Binding ElementName="lbPorts"
                                      Path="SelectedItems.Count"
@@ -89,10 +91,22 @@
                 </Button>
                 <Button Grid.Row="0"
                         Grid.Column="1"
+                        x:Name="btnCancel"
                         Content="Cancel"
-                        Click="OnCancel"
-                        IsEnabled="{Binding ElementName=timeRemaining, Path=IsRunning, Mode=OneWay}"
-                        Style="{StaticResource styButton}" />
+                        Click="OnCancel">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource styButton}"
+                               TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=ThreadCount}"
+                                             Value="0">
+                                    <Setter Property="IsEnabled"
+                                            Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
 
             <Label Grid.Row="3"

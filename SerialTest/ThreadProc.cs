@@ -15,12 +15,14 @@ namespace SerialTest
             string txPort = (string)state;
             Action<string> onNewMessage = new Action<string>(OnTxMessage);
             Func<bool> doneYet = new Func<bool>(timeRemaining.IsFinished);
+            Action amDone = new Action(DecrementThreadCount);
 
             SWL.SerialPort spTx = new SWL.SerialPort(txPort);
             uint err = spTx.Open();
             if (err != 0)
             {
                 Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(amDone);
                 return;
             }
 
@@ -28,6 +30,7 @@ namespace SerialTest
             if (err != 0)
             {
                 Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(amDone);
                 return;
             }
 
@@ -35,6 +38,7 @@ namespace SerialTest
             if (err != 0)
             {
                 Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(amDone);
                 return;
             }
 
@@ -60,8 +64,11 @@ namespace SerialTest
             if (err != 0)
             {
                 Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(amDone);
                 return;
             }
+
+            Dispatcher.Invoke(amDone);
         }
 
         public void RxThreadProc(object state)
@@ -69,12 +76,14 @@ namespace SerialTest
             string rxPort = (string)state;
             Action<string> onNewMessage = new Action<string>(OnRxMessage);
             Func<bool> doneYet = new Func<bool>(timeRemaining.IsFinished);
+            Action amDone = new Action(DecrementThreadCount);
 
             SWL.SerialPort spRx = new SWL.SerialPort(rxPort);
             uint err = spRx.Open();
             if (err != 0)
             {
                 Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(amDone);
                 return;
             }
 
@@ -82,6 +91,7 @@ namespace SerialTest
             if (err != 0)
             {
                 Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(amDone);
                 return;
             }
 
@@ -89,6 +99,7 @@ namespace SerialTest
             if (err != 0)
             {
                 Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(amDone);
                 return;
             }
 
@@ -114,8 +125,11 @@ namespace SerialTest
             if (err != 0)
             {
                 Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(amDone);
                 return;
             }
+
+            Dispatcher.Invoke(amDone);
         }
     }
 }

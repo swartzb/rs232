@@ -1,20 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using SWL = SerialWrapperLib;
 
 namespace SerialTest
 {
@@ -97,7 +84,27 @@ namespace SerialTest
         }
         private string _RxMessage = string.Empty;
 
+        public int ThreadCount
+        {
+            get { return _ThreadCount; }
+            set
+            {
+                if (_ThreadCount != value)
+                {
+                    _ThreadCount = value;
+                    RaisePropertyChanged("ThreadCount");
+                }
+            }
+        }
+        private int _ThreadCount = 0;
+
+        void DecrementThreadCount()
+        {
+            --ThreadCount;
+        }
+
         AutoResetEvent RxReady;
+        ManualResetEvent RxTxComplete;
 
         void OnTxMessage(string msg)
         {
@@ -112,6 +119,8 @@ namespace SerialTest
         private void OnStart(object sender, RoutedEventArgs e)
         {
             RxReady = new AutoResetEvent(false);
+            RxTxComplete = new ManualResetEvent(false);
+            ThreadCount = 2;
 
             RxMessage = string.Empty;
             TxMessage = string.Empty;
