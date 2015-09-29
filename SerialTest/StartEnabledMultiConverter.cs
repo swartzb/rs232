@@ -9,7 +9,7 @@ namespace SerialTest
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (DesignerProperties.GetIsInDesignMode(new Window()))
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
                 return true;
             }

@@ -1,5 +1,4 @@
 ﻿<Window x:Class="SerialTest.MainWindow"
-        x:Name="mainWnd"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CtrlLib="clr-namespace:CtrlLib;assembly=CtrlLib"
@@ -47,8 +46,13 @@
                     <Style BasedOn="{StaticResource styListBox}"
                            TargetType="ListBox">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=btnCancel, Path=IsEnabled, diag:PresentationTraceSources.TraceLevel=None}"
-                                         Value="True">
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <Binding ElementName="btnCancel"
+                                             Path="IsEnabled"
+                                             Mode="OneWay"
+                                             diag:PresentationTraceSources.TraceLevel="None" />
+                                </DataTrigger.Binding>
                                 <Setter Property="IsEnabled"
                                         Value="False" />
                             </DataTrigger>
@@ -79,9 +83,8 @@
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource semc}"
                                       Mode="OneWay"
-                                      diag:PresentationTraceSources.TraceLevel="High">
-                            <Binding ElementName="mainWnd"
-                                     Path="ThreadCount"
+                                      diag:PresentationTraceSources.TraceLevel="None">
+                            <Binding Path="ThreadCount"
                                      Mode="OneWay" />
                             <Binding ElementName="lbPorts"
                                      Path="SelectedItems.Count"
@@ -98,7 +101,7 @@
                         <Style BasedOn="{StaticResource styButton}"
                                TargetType="Button">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=ThreadCount}"
+                                <DataTrigger Binding="{Binding Path=ThreadCount, Mode=OneWay}"
                                              Value="0">
                                     <Setter Property="IsEnabled"
                                             Value="False" />
