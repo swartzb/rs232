@@ -1,68 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using SWL = SerialWrapperLib;
 
 namespace SerialTest
 {
     public partial class MainWindow
     {
-        public void TxThreadProc(object state)
+        public void ClientThreadProc(object state)
         {
-            string txPort = (string)state;
-            Action<string> onNewMessage = new Action<string>(OnTxMessage);
+            string clientPort = (string)state;
+            Action<string> onNewTxMessage = new Action<string>(OnTxMessage);
+            Action<string> onNewRxMessage = new Action<string>(OnRxMessage);
             Action amDone = new Action(DecrementThreadCount);
 
-            SWL.SerialPort spTx = new SWL.SerialPort(txPort);
-            uint err = spTx.Open();
+            SWL.SerialPort spClient = new SWL.SerialPort(clientPort);
+            uint err = spClient.Open();
             if (err != 0)
             {
-                Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(onNewTxMessage, "Client Open ERROR: " + err.ToString());
                 Dispatcher.Invoke(amDone);
                 return;
             }
 
-            err = spTx.Config();
+            err = spClient.Config();
             if (err != 0)
             {
-                Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(onNewTxMessage, "Client Config ERROR: " + err.ToString());
                 Dispatcher.Invoke(amDone);
                 return;
             }
 
-            err = spTx.Flush();
+            err = spClient.Flush();
             if (err != 0)
             {
-                Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(onNewTxMessage, "Client Flush ERROR: " + err.ToString());
                 Dispatcher.Invoke(amDone);
                 return;
             }
+
+            StringBuilder sb = new StringBuilder(1024);
+            UInt32 sbSize;
+            AutoResetEvent clientGoEvent = new AutoResetEvent(false);
+            Timer clientTimer = new Timer((object target) => { clientGoEvent.Set(); }, null, 0, 500);
 
             while (!RxTxComplete.WaitOne(0))
             {
+                clientGoEvent.WaitOne();
+                
                 DateTime dtNow = DateTime.Now;
-                string msg = dtNow.ToString("U");
-                err = spTx.Write(msg + "\r");
+                string msg = dtNow.ToString("MMMM dd, yyyy HH:mm:ss.f");
+                err = spClient.Write(msg + "\r");
                 if (err != 0)
                 {
-                    Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                    Dispatcher.Invoke(onNewTxMessage, "Client Write ERROR: " + err.ToString());
                     break;
                 }
                 else
                 {
-                    Dispatcher.Invoke(onNewMessage, msg);
+                    Dispatcher.Invoke(onNewTxMessage, msg);
                 }
 
-                Thread.Sleep(TimeSpan.FromSeconds(1.0));
+                err = spClient.Read(sb, out sbSize);
+                if (err != 0)
+                {
+                    Dispatcher.Invoke(onNewRxMessage, "Client Read ERROR: " + err.ToString());
+                    break;
+                }
+                else
+                {
+                    Dispatcher.Invoke(onNewRxMessage, sb.ToString());
+                }
             }
 
-            err = spTx.Close();
+            clientTimer.Dispose();
+
+            err = spClient.Close();
             if (err != 0)
             {
-                Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(onNewTxMessage, "Client Close ERROR: " + err.ToString());
                 Dispatcher.Invoke(amDone);
                 return;
             }
@@ -70,59 +86,72 @@ namespace SerialTest
             Dispatcher.Invoke(amDone);
         }
 
-        public void RxThreadProc(object state)
+        public void ServerThreadProc(object state)
         {
-            string rxPort = (string)state;
-            Action<string> onNewMessage = new Action<string>(OnRxMessage);
+            string clientPort = (string)state;
+            Action<string> onNewTxMessage = new Action<string>(OnTxMessage);
+            Action<string> onNewRxMessage = new Action<string>(OnTxMessage);
             Action amDone = new Action(DecrementThreadCount);
 
-            SWL.SerialPort spRx = new SWL.SerialPort(rxPort);
-            uint err = spRx.Open();
+            SWL.SerialPort spClient = new SWL.SerialPort(clientPort);
+            uint err = spClient.Open();
             if (err != 0)
             {
-                Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(onNewTxMessage, "Server Open ERROR: " + err.ToString());
                 Dispatcher.Invoke(amDone);
                 return;
             }
 
-            err = spRx.Config();
+            err = spClient.Config();
             if (err != 0)
             {
-                Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(onNewTxMessage, "Server Config ERROR: " + err.ToString());
                 Dispatcher.Invoke(amDone);
                 return;
             }
 
-            err = spRx.Flush();
+            err = spClient.Flush();
             if (err != 0)
             {
-                Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(onNewTxMessage, "Server Flush ERROR: " + err.ToString());
                 Dispatcher.Invoke(amDone);
                 return;
             }
 
             StringBuilder sb = new StringBuilder(1024);
             UInt32 sbSize;
-            RxReady.Set();
+            ServerReady.Set();
 
             while (!RxTxComplete.WaitOne(0))
             {
-                err = spRx.Read(sb, out sbSize);
+                string msg = string.Empty;
+
+                err = spClient.Read(sb, out sbSize);
                 if (err != 0)
                 {
-                    Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                    Dispatcher.Invoke(onNewRxMessage, "Server Read ERROR: " + err.ToString());
                     break;
                 }
                 else
                 {
-                    Dispatcher.Invoke(onNewMessage, sb.ToString());
+                    msg = sb.ToString();
                 }
-                
+
+                if (msg != string.Empty)
+                {
+                    err = spClient.Write(msg + "\r");
+                    if (err != 0)
+                    {
+                        Dispatcher.Invoke(onNewTxMessage, "Server Write ERROR: " + err.ToString());
+                        break;
+                    }
+                }
             }
-            err = spRx.Close();
+
+            err = spClient.Close();
             if (err != 0)
             {
-                Dispatcher.Invoke(onNewMessage, "ERROR: " + err.ToString());
+                Dispatcher.Invoke(onNewTxMessage, "Server Close ERROR: " + err.ToString());
                 Dispatcher.Invoke(amDone);
                 return;
             }

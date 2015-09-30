@@ -109,7 +109,7 @@ namespace SerialTest
             --ThreadCount;
         }
 
-        AutoResetEvent RxReady;
+        AutoResetEvent ServerReady;
         ManualResetEvent RxTxComplete;
 
         void OnTxMessage(string msg)
@@ -124,7 +124,7 @@ namespace SerialTest
 
         private void OnStart(object sender, RoutedEventArgs e)
         {
-            RxReady = new AutoResetEvent(false);
+            ServerReady = new AutoResetEvent(false);
             RxTxComplete = new ManualResetEvent(false);
             ThreadCount = 2;
 
@@ -132,11 +132,11 @@ namespace SerialTest
             TxMessage = string.Empty;
 
             ThreadPool.QueueUserWorkItem(
-                new WaitCallback(RxThreadProc), lbPorts.SelectedItems[1]);
-            RxReady.WaitOne();
+                new WaitCallback(ServerThreadProc), lbPorts.SelectedItems[1]);
+            ServerReady.WaitOne();
             Thread.Sleep(TimeSpan.FromSeconds(0.1));
             ThreadPool.QueueUserWorkItem(
-                new WaitCallback(TxThreadProc), lbPorts.SelectedItems[0]);
+                new WaitCallback(ClientThreadProc), lbPorts.SelectedItems[0]);
             timeRemaining.IsRunning = true;
         }
 
