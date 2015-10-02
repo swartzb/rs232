@@ -134,7 +134,7 @@ namespace SerialTest
             ThreadPool.QueueUserWorkItem(
                 new WaitCallback(ServerThreadProc), lbPorts.SelectedItems[1]);
             ServerReady.WaitOne();
-            Thread.Sleep(TimeSpan.FromSeconds(0.1));
+            Thread.Sleep(TimeSpan.FromSeconds(0.5));
             ThreadPool.QueueUserWorkItem(
                 new WaitCallback(ClientThreadProc), lbPorts.SelectedItems[0]);
             timeRemaining.IsRunning = true;

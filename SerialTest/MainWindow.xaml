@@ -6,8 +6,7 @@
         xmlns:src="clr-namespace:SerialTest"
         Title="Serial Port Test"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        SizeToContent="Height"
-        Width="400">
+        SizeToContent="WidthAndHeight">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -32,7 +31,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Label Grid.Row="0"
@@ -71,7 +70,7 @@
             <CtrlLib:TimeSpanCtrl x:Name="timeRemaining"
                                   Grid.Row="1"
                                   Grid.Column="1"
-                                  TimeRemaining="0:1:0"
+                                  TimeRemaining="0:0:10"
                                   IsDone="OnTimerDone" />
             <Grid Grid.Row="2"
                   Grid.Column="1">
@@ -124,7 +123,8 @@
                     Grid.Column="1"
                     Style="{StaticResource styBorder}"
                     BorderThickness="1"
-                    Grid.ColumnSpan="2">
+                    Grid.ColumnSpan="2"
+                    MinWidth="240">
                 <TextBlock Style="{StaticResource styTextBlock}"
                            Text="{Binding Path=TxMessage, Mode=OneWay}" />
             </Border>
@@ -137,7 +137,8 @@
                     Grid.Column="1"
                     Style="{StaticResource styBorder}"
                     BorderThickness="1"
-                    Grid.ColumnSpan="2">
+                    Grid.ColumnSpan="2"
+                    MinWidth="240">
                 <TextBlock Style="{StaticResource styTextBlock}"
                            Text="{Binding Path=RxMessage, Mode=OneWay}" />
             </Border>

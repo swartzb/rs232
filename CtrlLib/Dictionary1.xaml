@@ -7,7 +7,7 @@
     </s:Double>
 
     <s:Double x:Key="stdFontSize">
-        18.0
+        16.0
     </s:Double>
 
     <Thickness x:Key="stdThickness"

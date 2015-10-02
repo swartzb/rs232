@@ -41,13 +41,9 @@ namespace SerialTest
 
             StringBuilder sb = new StringBuilder(1024);
             UInt32 sbSize;
-            AutoResetEvent clientGoEvent = new AutoResetEvent(false);
-            Timer clientTimer = new Timer((object target) => { clientGoEvent.Set(); }, null, 0, 500);
 
             while (!RxTxComplete.WaitOne(0))
             {
-                clientGoEvent.WaitOne();
-                
                 DateTime dtNow = DateTime.Now;
                 string msg = dtNow.ToString("MMMM dd, yyyy HH:mm:ss.f");
                 err = spClient.Write(msg + "\r");
@@ -71,9 +67,9 @@ namespace SerialTest
                 {
                     Dispatcher.Invoke(onNewRxMessage, sb.ToString());
                 }
-            }
 
-            clientTimer.Dispose();
+                Thread.Sleep(500);
+            }
 
             err = spClient.Close();
             if (err != 0)
@@ -137,14 +133,11 @@ namespace SerialTest
                     msg = sb.ToString();
                 }
 
-                if (msg != string.Empty)
+                err = spClient.Write(msg + "\r");
+                if (err != 0)
                 {
-                    err = spClient.Write(msg + "\r");
-                    if (err != 0)
-                    {
-                        Dispatcher.Invoke(onNewTxMessage, "Server Write ERROR: " + err.ToString());
-                        break;
-                    }
+                    Dispatcher.Invoke(onNewTxMessage, "Server Write ERROR: " + err.ToString());
+                    break;
                 }
             }
 
