@@ -9,6 +9,8 @@ namespace SerialTest
     {
         public void ClientThreadProc(object state)
         {
+            log.Info("ClientThreadProc enter");
+            
             string clientPort = (string)state;
             Action<string> onNewTxMessage = new Action<string>(OnTxMessage);
             Action<string> onNewRxMessage = new Action<string>(OnRxMessage);
@@ -40,13 +42,13 @@ namespace SerialTest
             }
 
             StringBuilder sb = new StringBuilder(1024);
-            UInt32 sbSize;
+            UInt32 sbSize, eventMask;
 
             while (!RxTxComplete.WaitOne(0))
             {
                 DateTime dtNow = DateTime.Now;
                 string msg = dtNow.ToString("MMMM dd, yyyy HH:mm:ss.f");
-                err = spClient.Write(msg + "\r");
+                err = spClient.Write(msg);
                 if (err != 0)
                 {
                     Dispatcher.Invoke(onNewTxMessage, "Client Write ERROR: " + err.ToString());
@@ -57,7 +59,7 @@ namespace SerialTest
                     Dispatcher.Invoke(onNewTxMessage, msg);
                 }
 
-                err = spClient.Read(sb, out sbSize);
+                err = spClient.Read(sb, out sbSize, out eventMask);
                 if (err != 0)
                 {
                     Dispatcher.Invoke(onNewRxMessage, "Client Read ERROR: " + err.ToString());
@@ -68,7 +70,7 @@ namespace SerialTest
                     Dispatcher.Invoke(onNewRxMessage, sb.ToString());
                 }
 
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
             }
 
             err = spClient.Close();
@@ -80,10 +82,14 @@ namespace SerialTest
             }
 
             Dispatcher.Invoke(amDone);
+
+            log.Info("ClientThreadProc exit");
         }
 
         public void ServerThreadProc(object state)
         {
+            log.Info("ServerThreadProc enter");
+
             string clientPort = (string)state;
             Action<string> onNewTxMessage = new Action<string>(OnTxMessage);
             Action<string> onNewRxMessage = new Action<string>(OnTxMessage);
@@ -115,14 +121,14 @@ namespace SerialTest
             }
 
             StringBuilder sb = new StringBuilder(1024);
-            UInt32 sbSize;
+            UInt32 sbSize, eventMask;
             ServerReady.Set();
 
             while (!RxTxComplete.WaitOne(0))
             {
                 string msg = string.Empty;
 
-                err = spClient.Read(sb, out sbSize);
+                err = spClient.Read(sb, out sbSize, out eventMask);
                 if (err != 0)
                 {
                     Dispatcher.Invoke(onNewRxMessage, "Server Read ERROR: " + err.ToString());
@@ -133,7 +139,7 @@ namespace SerialTest
                     msg = sb.ToString();
                 }
 
-                err = spClient.Write(msg + "\r");
+                err = spClient.Write(msg);
                 if (err != 0)
                 {
                     Dispatcher.Invoke(onNewTxMessage, "Server Write ERROR: " + err.ToString());
@@ -150,6 +156,8 @@ namespace SerialTest
             }
 
             Dispatcher.Invoke(amDone);
+
+            log.Info("ServerThreadProc exit");
         }
     }
 }

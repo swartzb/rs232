@@ -18,4 +18,4 @@ extern "C" __declspec(dllexport)
 DWORD __stdcall WriteSerialPort(HANDLE h, const CHAR *pszBuf, DWORD dwSize);
 
 extern "C" __declspec(dllexport)
-DWORD __stdcall ReadSerialPort(HANDLE h, char * const pszBuf, DWORD bufSize, DWORD *dwSize);
+DWORD __stdcall ReadSerialPort(HANDLE h, char * const pszBuf, DWORD bufSize, DWORD *dwSize, DWORD *dwEventMask);

@@ -10,6 +10,9 @@ namespace SerialTest
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public MainWindow()
         {
             InitializeComponent();

@@ -15,6 +15,9 @@ namespace SerialTest
     /// </summary>
     public partial class App : Application
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public App()
         {
 
@@ -25,6 +28,16 @@ namespace SerialTest
             sty = (Style)TryFindResource(typeof(System.Windows.Controls.ListBoxItem));
 
             return;
+        }
+
+        private void OnAppStartup(object sender, StartupEventArgs e)
+        {
+            log.Info("App Startup");
+        }
+
+        private void OnAppExit(object sender, ExitEventArgs e)
+        {
+            log.Info("App Exit");
         }
     }
 }

@@ -11,17 +11,11 @@ namespace CtrlLib
     /// </summary>
     public partial class TimeSpanCtrl : UserControl, INotifyPropertyChanged
     {
-        public event EventHandler IsDone;
-        
-        //public static readonly RoutedEvent IsDoneEvent = EventManager.RegisterRoutedEvent(
-        //    "IsDone", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TimeSpanCtrl));
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        //public event RoutedEventHandler IsDone
-        //{
-        //    add { AddHandler(IsDoneEvent, value); }
-        //    remove { RemoveHandler(IsDoneEvent, value); }
-        //}
-        
+        public event EventHandler IsDone;
+
         public TimeSpanCtrl()
         {
             _CountDownTimer = new DispatcherTimer();
@@ -83,6 +77,7 @@ namespace CtrlLib
                         }
                     }
                     _IsRunning = value;
+                    log.InfoFormat("IsRunning {0}", value);
                     RaisePropertyChanged("IsRunning");
                 }
             }

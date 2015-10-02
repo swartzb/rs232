@@ -9,6 +9,9 @@ namespace SerialWrapperLib
 {
     public class SerialPort
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         [DllImport("SerialLib.dll", EntryPoint = "OpenSerialPort", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         static extern UInt32 OpenSerialPort(out IntPtr h, [InAttribute()] [MarshalAs(UnmanagedType.LPWStr)] string portName);
 
@@ -25,7 +28,7 @@ namespace SerialWrapperLib
         static extern UInt32 WriteSerialPort(IntPtr h, [InAttribute()] [MarshalAs(UnmanagedType.LPStr)] string buf, UInt32 bufSize);
 
         [DllImport("SerialLib.dll", EntryPoint = "ReadSerialPort", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi, SetLastError = true)]
-        static extern UInt32 ReadSerialPort(IntPtr h, StringBuilder buf, UInt32 bufSize, out UInt32 bufLen);
+        static extern UInt32 ReadSerialPort(IntPtr h, StringBuilder buf, UInt32 bufSize, out UInt32 bufLen, out UInt32 eventMask);
 
         public SerialPort(string portName)
         {
@@ -58,12 +61,17 @@ namespace SerialWrapperLib
 
         public UInt32 Write(string msg)
         {
-            return WriteSerialPort(Handle, msg, (uint)msg.Length);
+            string outMsg = msg + "\r";
+            UInt32 rVal = WriteSerialPort(Handle, outMsg, (uint)outMsg.Length);
+            log.DebugFormat("Write {0} '{1}'", rVal, msg);
+            return rVal;
         }
 
-        public UInt32 Read(StringBuilder sb, out UInt32 bufLen)
+        public UInt32 Read(StringBuilder sb, out UInt32 bufLen, out UInt32 eventMask)
         {
-            return ReadSerialPort(Handle, sb, (uint)sb.Capacity, out bufLen);
+            UInt32 rVal = ReadSerialPort(Handle, sb, (uint)sb.Capacity, out bufLen, out eventMask);
+            log.DebugFormat("Read {0} {1} {2:X8} '{3}'", rVal, bufLen, eventMask, sb.ToString());
+            return rVal;
         }
     }
 }
