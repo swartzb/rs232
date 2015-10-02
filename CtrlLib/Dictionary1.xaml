@@ -6,6 +6,10 @@
         3.0
     </s:Double>
 
+    <s:Double x:Key="stdFontSize">
+        18.0
+    </s:Double>
+
     <Thickness x:Key="stdThickness"
                Left="{StaticResource stdValue}"
                Top="{StaticResource stdValue}"

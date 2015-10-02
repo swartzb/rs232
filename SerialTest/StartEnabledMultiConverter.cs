@@ -21,8 +21,7 @@ namespace SerialTest
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
         {
-            object[] arr = { 0, 0 };
-            return arr;
+            return null;
         }
     }
 }

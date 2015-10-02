@@ -16,6 +16,9 @@
             <src:StartEnabledMultiConverter x:Key="semc" />
         </ResourceDictionary>
     </Window.Resources>
+    <Window.FontSize>
+        <StaticResource ResourceKey="stdFontSize" />
+    </Window.FontSize>
 
     <Border Style="{StaticResource styBorder}">
         <Grid>
