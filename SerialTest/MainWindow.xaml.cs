@@ -159,7 +159,7 @@ namespace SerialTest
 
         private void OnCancel(object sender, RoutedEventArgs e)
         {
-
+            timeRemaining.IsRunning = false;
         }
     }
 }
